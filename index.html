@@ -1,14 +1,1905 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="theme-color" content="#000000" />
-    <title>AriLinc | Agentic AI Demo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AriLinc — Agentic AI for Industrial Manufacturing | AriPrus</title>
+    <meta
+      name="description"
+      content="AriLinc is an Agentic AI platform that delivers predictive intelligence across 7 industrial verticals — from steel mills to dairy farms, pharma to battery manufacturing."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #080c12;
+        --bg2: #0d1420;
+        --bg3: #111827;
+        --gold: #f59e0b;
+        --gold2: #fbbf24;
+        --gold3: #fde68a;
+        --silver: #94a3b8;
+        --silver2: #cbd5e1;
+        --white: #f8fafc;
+        --border: rgba(255, 255, 255, 0.08);
+        --border2: rgba(245, 158, 11, 0.3);
+        --red: #ef4444;
+        --green: #10b981;
+        --blue: #3b82f6;
+        --teal: #06b6d4;
+        --purple: #8b5cf6;
+        --orange: #f97316;
+        --amber: #d97706;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--white);
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* ── NOISE TEXTURE OVERLAY ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0 48px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(8, 12, 18, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        transition: all 0.3s;
+      }
+
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .nav-logo-mark {
+        width: 34px;
+        height: 34px;
+        background: var(--gold);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 18px;
+        color: var(--bg);
+        letter-spacing: 1px;
+        flex-shrink: 0;
+      }
+
+      .nav-logo-text {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 22px;
+        color: var(--white);
+        letter-spacing: 2px;
+      }
+
+      .nav-logo-text span {
+        color: var(--gold);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--silver);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--white);
+      }
+
+      .nav-cta {
+        background: var(--gold) !important;
+        color: var(--bg) !important;
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        transition: all 0.2s !important;
+        white-space: nowrap;
+      }
+
+      .nav-cta:hover {
+        background: var(--gold2) !important;
+        transform: translateY(-1px);
+      }
+
+      /* ── HERO ── */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 120px 48px 80px;
+        overflow: hidden;
+      }
+
+      /* Animated grid background */
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            rgba(245, 158, 11, 0.04) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(245, 158, 11, 0.04) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          black 30%,
+          transparent 100%
+        );
+        animation: gridPulse 8s ease-in-out infinite;
+      }
+
+      @keyframes gridPulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Glowing orbs */
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        pointer-events: none;
+        animation: orbFloat 12s ease-in-out infinite;
+      }
+
+      .hero-orb-1 {
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(245, 158, 11, 0.12) 0%,
+          transparent 70%
+        );
+        top: -200px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .hero-orb-2 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(59, 130, 246, 0.08) 0%,
+          transparent 70%
+        );
+        bottom: 0;
+        left: -100px;
+        animation-delay: -4s;
+      }
+
+      .hero-orb-3 {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(
+          circle,
+          rgba(139, 92, 246, 0.07) 0%,
+          transparent 70%
+        );
+        bottom: 100px;
+        right: -50px;
+        animation-delay: -8s;
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        33% {
+          transform: translateY(-30px) scale(1.05);
+        }
+        66% {
+          transform: translateY(20px) scale(0.97);
+        }
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        border-radius: 100px;
+        padding: 6px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gold3);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 32px;
+        animation: fadeUp 0.8s ease both;
+      }
+
+      .hero-badge-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--gold);
+        border-radius: 50%;
+        animation: blinkDot 2s infinite;
+      }
+
+      @keyframes blinkDot {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      .hero-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(64px, 10vw, 120px);
+        line-height: 0.9;
+        letter-spacing: 4px;
+        color: var(--white);
+        margin-bottom: 8px;
+        animation: fadeUp 0.8s 0.1s ease both;
+      }
+
+      .hero-title-gold {
+        color: var(--gold);
+        display: block;
+      }
+
+      .hero-sub {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(28px, 4vw, 48px);
+        letter-spacing: 6px;
+        color: var(--silver);
+        margin-bottom: 40px;
+        animation: fadeUp 0.8s 0.2s ease both;
+      }
+
+      .hero-desc {
+        max-width: 640px;
+        font-size: 18px;
+        line-height: 1.7;
+        color: var(--silver2);
+        margin-bottom: 48px;
+        animation: fadeUp 0.8s 0.3s ease both;
+      }
+
+      .hero-desc strong {
+        color: var(--white);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 80px;
+        animation: fadeUp 0.8s 0.4s ease both;
+      }
+
+      .btn-primary {
+        background: var(--gold);
+        color: var(--bg);
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 15px;
+        transition: all 0.2s;
+        letter-spacing: 0.3px;
+      }
+
+      .btn-primary:hover {
+        background: var(--gold2);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(245, 158, 11, 0.3);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--white);
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        border: 1px solid var(--border);
+        transition: all 0.2s;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* ── STATS BAR ── */
+      .stats-bar {
+        display: flex;
+        gap: 0;
+        border: 1px solid var(--border2);
+        border-radius: 12px;
+        overflow: hidden;
+        animation: fadeUp 0.8s 0.5s ease both;
+        max-width: 800px;
+        width: 100%;
+      }
+
+      .stat-item {
+        flex: 1;
+        padding: 24px 20px;
+        text-align: center;
+        border-right: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        transition: background 0.2s;
+      }
+
+      .stat-item:last-child {
+        border-right: none;
+      }
+      .stat-item:hover {
+        background: rgba(245, 158, 11, 0.05);
+      }
+
+      .stat-value {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 36px;
+        letter-spacing: 2px;
+        color: var(--gold);
+        display: block;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--silver);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      /* ── SECTION COMMON ── */
+      section {
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-label::before {
+        content: "";
+        width: 24px;
+        height: 2px;
+        background: var(--gold);
+        display: block;
+      }
+
+      .section-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(36px, 5vw, 56px);
+        letter-spacing: 3px;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+
+      .section-desc {
+        font-size: 17px;
+        color: var(--silver2);
+        max-width: 560px;
+        line-height: 1.7;
+      }
+
+      /* ── VERTICALS SECTION ── */
+      .verticals {
+        padding: 100px 48px;
+        background: var(--bg2);
+      }
+
+      .verticals-header {
+        max-width: 1280px;
+        margin: 0 auto 64px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 32px;
+      }
+
+      .verticals-grid {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .vertical-card {
+        position: relative;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px;
+        text-decoration: none;
+        color: inherit;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        display: block;
+      }
+
+      .vertical-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .vertical-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--card-color, var(--gold));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+      }
+
+      .vertical-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--card-color, var(--gold));
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+          0 0 0 1px var(--card-color, var(--gold));
+      }
+
+      .vertical-card:hover::after {
+        transform: scaleX(1);
+      }
+
+      .card-icon-wrap {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        margin-bottom: 20px;
+        background: var(--card-bg, rgba(245, 158, 11, 0.1));
+        border: 1px solid var(--card-border, rgba(245, 158, 11, 0.2));
+        transition: transform 0.3s ease;
+      }
+
+      .vertical-card:hover .card-icon-wrap {
+        transform: scale(1.1) rotate(-3deg);
+      }
+
+      .card-tag {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--card-color, var(--gold));
+        margin-bottom: 8px;
+      }
+
+      .card-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 26px;
+        letter-spacing: 2px;
+        color: var(--white);
+        margin-bottom: 10px;
+        line-height: 1;
+      }
+
+      .card-desc {
+        font-size: 13px;
+        color: var(--silver);
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+
+      .card-features {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 28px;
+      }
+
+      .card-feature {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--silver2);
+      }
+
+      .card-feature::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        background: var(--card-color, var(--gold));
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+
+      .card-kpi {
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        color: var(--card-color, var(--gold));
+        font-weight: 500;
+      }
+
+      .card-link {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--card-color, var(--gold));
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: gap 0.2s;
+      }
+
+      .vertical-card:hover .card-link {
+        gap: 10px;
+      }
+
+      /* ── PLATFORM SECTION ── */
+      .platform {
+        padding: 100px 48px;
+        background: var(--bg);
+      }
+
+      .platform-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
+
+      .platform-features {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 48px;
+      }
+
+      .platform-feature {
+        display: flex;
+        gap: 16px;
+        padding: 20px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        transition: border-color 0.2s, transform 0.2s;
+      }
+
+      .platform-feature:hover {
+        border-color: rgba(245, 158, 11, 0.3);
+        transform: translateX(4px);
+      }
+
+      .pf-icon {
+        font-size: 24px;
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pf-title {
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--white);
+        margin-bottom: 4px;
+      }
+
+      .pf-desc {
+        font-size: 13px;
+        color: var(--silver);
+        line-height: 1.5;
+      }
+
+      /* Architecture diagram */
+      .arch-diagram {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .arch-title {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--gold);
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+      }
+
+      .arch-layer {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: border-color 0.2s;
+        position: relative;
+      }
+
+      .arch-layer:hover {
+        border-color: rgba(245, 158, 11, 0.3);
+      }
+
+      .arch-layer-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        animation: layerPulse 2s infinite;
+      }
+
+      @keyframes layerPulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      .arch-layer-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--white);
+        flex: 1;
+      }
+
+      .arch-layer-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--silver);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+
+      .arch-connector {
+        text-align: center;
+        color: var(--silver);
+        font-size: 18px;
+        margin: -4px 0;
+        opacity: 0.4;
+      }
+
+      /* ── INDUSTRY COUNT SECTION ── */
+      .industries {
+        padding: 80px 48px;
+        background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+        text-align: center;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .industries-label {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--silver);
+        margin-bottom: 32px;
+      }
+
+      .industries-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        max-width: 900px;
+        margin: 0 auto 48px;
+      }
+
+      .industry-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 8px 18px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--silver2);
+        transition: all 0.2s;
+        cursor: default;
+      }
+
+      .industry-pill:hover {
+        border-color: var(--gold);
+        color: var(--white);
+        background: rgba(245, 158, 11, 0.08);
+      }
+
+      /* ── CTA SECTION ── */
+      .cta-section {
+        padding: 120px 48px;
+        background: var(--bg2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(245, 158, 11, 0.08) 0%,
+          transparent 70%
+        );
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      .cta-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 7vw, 80px);
+        letter-spacing: 4px;
+        line-height: 1;
+        margin-bottom: 24px;
+      }
+
+      .cta-title span {
+        color: var(--gold);
+      }
+
+      .cta-desc {
+        font-size: 18px;
+        color: var(--silver2);
+        max-width: 520px;
+        margin: 0 auto 48px;
+        line-height: 1.7;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        padding: 48px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 24px;
+        max-width: 100%;
+      }
+
+      .footer-brand {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 20px;
+        letter-spacing: 2px;
+        color: var(--white);
+      }
+
+      .footer-brand span {
+        color: var(--gold);
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 24px;
+      }
+
+      .footer-links a {
+        font-size: 13px;
+        color: var(--silver);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .footer-links a:hover {
+        color: var(--white);
+      }
+
+      .footer-copy {
+        font-size: 12px;
+        color: var(--silver);
+        opacity: 0.6;
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 1024px) {
+        .verticals-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .platform-inner {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 0 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero,
+        .verticals,
+        .platform,
+        .cta-section {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+        .verticals-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-bar {
+          flex-wrap: wrap;
+        }
+        .stat-item {
+          min-width: 120px;
+          border-bottom: 1px solid var(--border);
+        }
+        footer {
+          flex-direction: column;
+          text-align: center;
+          padding: 32px 24px;
+        }
+        .footer-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+      }
+
+      /* ── HORIZONTAL MARQUEE ── */
+      .marquee-wrapper {
+        overflow: hidden;
+        padding: 20px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: var(--bg3);
+      }
+
+      .marquee-track {
+        display: flex;
+        gap: 48px;
+        animation: marqueeScroll 30s linear infinite;
+        white-space: nowrap;
+        width: max-content;
+      }
+
+      .marquee-track:hover {
+        animation-play-state: paused;
+      }
+
+      .marquee-item {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--silver);
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .marquee-dot {
+        color: var(--gold);
+        font-size: 8px;
+      }
+
+      @keyframes marqueeScroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ── PULSE LINE ── */
+      .pulse-line {
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          var(--gold2),
+          var(--gold),
+          transparent
+        );
+        background-size: 200% 100%;
+        animation: pulseShimmer 3s ease infinite;
+        margin: 0;
+        border: none;
+      }
+
+      @keyframes pulseShimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+    </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- ── NAVIGATION ── -->
+    <nav>
+      <a href="https://ariprus.com" class="nav-logo">
+        <div class="nav-logo-mark">AP</div>
+        <span class="nav-logo-text">Ari<span>Linc</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#verticals">Solutions</a></li>
+        <li><a href="#platform">Platform</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li>
+          <a href="https://arilinc.ariprus.com" target="_blank"
+            >Main Platform</a
+          >
+        </li>
+        <li>
+          <a href="mailto:info@ariprus.com" class="nav-cta">Book a Demo</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Agentic AI · Industrial Intelligence Platform
+      </div>
+
+      <h1 class="hero-title">
+        THE BRAIN
+        <span class="hero-title-gold">YOUR PLANT</span>
+        DESERVES
+      </h1>
+
+      <p class="hero-sub">POWERED BY ARIPRUS</p>
+
+      <p class="hero-desc">
+        AriLinc is an <strong>Agentic AI platform</strong> that transforms your
+        industrial sensor data into real-time decisions — predicting failures,
+        optimising energy and eliminating yield losses across
+        <strong>7 verticals</strong>.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#verticals" class="btn-primary">Explore All Solutions</a>
+        <a
+          href="https://arilinc.ariprus.com"
+          target="_blank"
+          class="btn-secondary"
+          >View Live Platform →</a
+        >
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" data-count="7">7</span>
+          <span class="stat-label">Industry Verticals</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" data-count="30">30s</span>
+          <span class="stat-label">Avg Alert Response</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" data-count="6">6mo</span>
+          <span class="stat-label">Payback Period</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">98.7%</span>
+          <span class="stat-label">Compliance Rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">24/7</span>
+          <span class="stat-label">AI Monitoring</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE ── -->
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> PREDICTIVE MAINTENANCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> ENERGY OPTIMISATION</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> QUALITY INTELLIGENCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> ATEX DUST SAFETY</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> 21 CFR PART 11 COMPLIANCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> FORMATION CYCLE AI</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> KILN TEMPERATURE
+          INTELLIGENCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> VISION AI DEFECT DETECTION</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> EAF ENERGY INTELLIGENCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> TOC CLEARANCE PREDICTION</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> ROOT CAUSE ANALYSIS</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> YIELD OPTIMISATION</span
+        >
+        <!-- duplicate for seamless loop -->
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> PREDICTIVE MAINTENANCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> ENERGY OPTIMISATION</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> QUALITY INTELLIGENCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> ATEX DUST SAFETY</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> 21 CFR PART 11 COMPLIANCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> FORMATION CYCLE AI</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> KILN TEMPERATURE
+          INTELLIGENCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> VISION AI DEFECT DETECTION</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> EAF ENERGY INTELLIGENCE</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> TOC CLEARANCE PREDICTION</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> ROOT CAUSE ANALYSIS</span
+        >
+        <span class="marquee-item"
+          ><span class="marquee-dot">●</span> YIELD OPTIMISATION</span
+        >
+      </div>
+    </div>
+
+    <hr class="pulse-line" />
+
+    <!-- ── VERTICALS SECTION ── -->
+    <section class="verticals" id="verticals">
+      <div class="verticals-header reveal">
+        <div>
+          <div class="section-label">Industry Solutions</div>
+          <h2 class="section-title">7 VERTICALS.<br />ONE PLATFORM.</h2>
+        </div>
+        <p class="section-desc">
+          Every solution is a live, deployed demo — not a mockup. Click any card
+          to access the real platform your prospects will see.
+        </p>
+      </div>
+
+      <div class="verticals-grid">
+        <!-- MAIN PLATFORM -->
+        <a
+          href="https://arilinc.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #f59e0b;
+            --card-bg: rgba(245, 158, 11, 0.08);
+            --card-border: rgba(245, 158, 11, 0.2);
+            grid-column: span 1;
+          "
+        >
+          <div class="card-icon-wrap">🏭</div>
+          <div class="card-tag">Flagship Platform</div>
+          <h3 class="card-title">ARILINC PLATFORM</h3>
+          <p class="card-desc">
+            The unified command centre — 4 sections covering Asset Dashboard, AI
+            Agents, Business Value and Executive View in one integrated
+            platform.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >3 Agentic AI pipelines (Maintenance · Energy · Quality)</span
+            >
+            <span class="card-feature"
+              >Live KPI dashboard with sensor health trends</span
+            >
+            <span class="card-feature"
+              >Interactive ROI calculator with sliders</span
+            >
+            <span class="card-feature"
+              >Formspree lead capture — every sign-in to info@ariprus.com</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">arilinc.ariprus.com</span>
+            <span class="card-link">Open Platform →</span>
+          </div>
+        </a>
+
+        <!-- STEEL -->
+        <a
+          href="https://steel.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #94a3b8;
+            --card-bg: rgba(148, 163, 184, 0.08);
+            --card-border: rgba(148, 163, 184, 0.2);
+          "
+        >
+          <div class="card-icon-wrap">⚡</div>
+          <div class="card-tag">Steel & Metals</div>
+          <h3 class="card-title">STEEL INTELLIGENCE</h3>
+          <p class="card-desc">
+            EAF energy optimisation, hot strip mill chatter detection, electrode
+            management and prime yield AI — full steelmaking intelligence.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >EAF transformer tap AI — Rs 1.8L saving per heat</span
+            >
+            <span class="card-feature"
+              >Roll chatter detection 2 coils before surface defects</span
+            >
+            <span class="card-feature"
+              >Electrode wear prediction — 3-heat advance warning</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">Rs 65/tonne saving</span>
+            <span class="card-link">Open Demo →</span>
+          </div>
+        </a>
+
+        <!-- DAIRY CIP -->
+        <a
+          href="https://cip.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #06b6d4;
+            --card-bg: rgba(6, 182, 212, 0.08);
+            --card-border: rgba(6, 182, 212, 0.2);
+          "
+        >
+          <div class="card-icon-wrap">🥛</div>
+          <div class="card-tag">Food & Beverage</div>
+          <h3 class="card-title">DAIRY CIP</h3>
+          <p class="card-desc">
+            Predictive CIP scheduling, chemical dosing optimisation and
+            compliance audit trail — purpose-built for dairy processing
+            operations.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >AI Soiling Index — condition-based vs time-based CIP</span
+            >
+            <span class="card-feature">40% unnecessary cycles eliminated</span>
+            <span class="card-feature"
+              >FSSC 22000 · HACCP · BRC audit trail — 1 click export</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">Rs 18–24L annual saving</span>
+            <span class="card-link">Open Demo →</span>
+          </div>
+        </a>
+
+        <!-- PHARMA CIP -->
+        <a
+          href="https://pharma.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #8b5cf6;
+            --card-bg: rgba(139, 92, 246, 0.08);
+            --card-border: rgba(139, 92, 246, 0.2);
+          "
+        >
+          <div class="card-icon-wrap">⚗️</div>
+          <div class="card-tag">Pharmaceutical</div>
+          <h3 class="card-title">PHARMA CIP</h3>
+          <p class="card-desc">
+            21 CFR Part 11 compliant CIP intelligence with electronic
+            signatures, ALCOA+ data integrity and GAMP 5 Category 4 validation.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >21 CFR Part 11 e-signatures — every release</span
+            >
+            <span class="card-feature"
+              >TOC clearance prediction — ≤0.5 mg/L before release</span
+            >
+            <span class="card-feature"
+              >FDA inspection-ready in one click — full audit trail</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">GMP Compliant · GAMP 5</span>
+            <span class="card-link">Open Demo →</span>
+          </div>
+        </a>
+
+        <!-- BATTERY -->
+        <a
+          href="https://battery.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #f97316;
+            --card-bg: rgba(249, 115, 22, 0.08);
+            --card-border: rgba(249, 115, 22, 0.2);
+          "
+        >
+          <div class="card-icon-wrap">🔋</div>
+          <div class="card-tag">EV · Energy Storage</div>
+          <h3 class="card-title">BATTERY MFG</h3>
+          <p class="card-desc">
+            Formation cycle AI, in-line defect detection, AI cell grading and
+            root cause analysis — intelligence across the full cell
+            manufacturing process.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >Formation capacity prediction mid-cycle — 94%+ accuracy</span
+            >
+            <span class="card-feature"
+              >AI cell grading — 12 parameters simultaneously</span
+            >
+            <span class="card-feature"
+              >Root cause identified in under 10 seconds</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">$1.8–4.2M annual saving</span>
+            <span class="card-link">Open Demo →</span>
+          </div>
+        </a>
+
+        <!-- TILES -->
+        <a
+          href="https://tiles.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #d97706;
+            --card-bg: rgba(217, 119, 6, 0.08);
+            --card-border: rgba(217, 119, 6, 0.2);
+          "
+        >
+          <div class="card-icon-wrap">🏗️</div>
+          <div class="card-tag">Ceramics · Porcelain</div>
+          <h3 class="card-title">TILES MFG</h3>
+          <p class="card-desc">
+            Kiln zone intelligence, Vision AI defect detection, predictive
+            maintenance and Grade A yield optimisation for tiles and ceramics
+            manufacturers.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >8-zone kiln temperature AI — warping risk prediction</span
+            >
+            <span class="card-feature"
+              >4,820 tiles/hr Vision AI inspection</span
+            >
+            <span class="card-feature"
+              >Roll wear and bearing predictive alerts</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">Rs 50L+ annual saving</span>
+            <span class="card-link">Open Demo →</span>
+          </div>
+        </a>
+
+        <!-- GRAIN MILLING -->
+        <a
+          href="https://grain.ariprus.com"
+          target="_blank"
+          class="vertical-card reveal"
+          style="
+            --card-color: #b45309;
+            --card-bg: rgba(180, 83, 9, 0.08);
+            --card-border: rgba(180, 83, 9, 0.2);
+          "
+        >
+          <div class="card-icon-wrap">🌾</div>
+          <div class="card-tag">Grain · Milling · Feed</div>
+          <h3 class="card-title">GRAIN & MILLING</h3>
+          <p class="card-desc">
+            ATEX dust explosion prevention, predictive maintenance and process
+            control for grain mills, flour factories and feed manufacturing
+            facilities.
+          </p>
+          <div class="card-features">
+            <span class="card-feature"
+              >ATEX dust LEL monitoring — suppression in 3 seconds</span
+            >
+            <span class="card-feature"
+              >Bearing failure prediction — 3-6 weeks advance warning</span
+            >
+            <span class="card-feature"
+              >AI moisture control — dryer efficiency 94%+</span
+            >
+          </div>
+          <div class="card-footer">
+            <span class="card-kpi">Rs 88L+ · Life safety</span>
+            <span class="card-link">Open Demo →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── PLATFORM CAPABILITIES ── -->
+    <section class="platform" id="platform">
+      <div class="platform-inner">
+        <div class="reveal">
+          <div class="section-label">Platform Architecture</div>
+          <h2 class="section-title">ONE AI.<br />EVERY PLANT.</h2>
+          <p class="section-desc">
+            AriLinc connects to your existing sensors, PLCs and historians. No
+            rip-and-replace. AI intelligence layer deployed in 90 days.
+          </p>
+
+          <div class="platform-features">
+            <div class="platform-feature">
+              <div class="pf-icon">📡</div>
+              <div>
+                <div class="pf-title">Universal Connectivity</div>
+                <div class="pf-desc">
+                  OPC-UA, MQTT, Modbus, REST APIs. Connects to SCADA, DCS,
+                  historians, MES and ERP. Read-only — zero production risk.
+                </div>
+              </div>
+            </div>
+            <div class="platform-feature">
+              <div class="pf-icon">🤖</div>
+              <div>
+                <div class="pf-title">Agentic AI Engine</div>
+                <div class="pf-desc">
+                  AI agents that observe, reason and act — not just alert.
+                  Predicts, recommends and auto-corrects before humans are aware
+                  of the issue.
+                </div>
+              </div>
+            </div>
+            <div class="platform-feature">
+              <div class="pf-icon">⚡</div>
+              <div>
+                <div class="pf-title">Real-Time at Scale</div>
+                <div class="pf-desc">
+                  Sub-30-second alert response across thousands of sensor
+                  points. Edge-to-cloud architecture for latency-sensitive
+                  applications.
+                </div>
+              </div>
+            </div>
+            <div class="platform-feature">
+              <div class="pf-icon">🔒</div>
+              <div>
+                <div class="pf-title">Enterprise Security</div>
+                <div class="pf-desc">
+                  On-premise or private cloud deployment. Role-based access.
+                  Encryption at rest and in transit. Full audit trail — 21 CFR
+                  Part 11 ready.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-diagram reveal">
+          <div class="arch-title">// PLATFORM ARCHITECTURE</div>
+
+          <div class="arch-layer">
+            <div
+              class="arch-layer-dot"
+              style="background: #10b981; animation-delay: 0s"
+            ></div>
+            <span class="arch-layer-name">Plant Data Sources</span>
+            <span class="arch-layer-tag">Sensors · PLCs · SCADA · MES</span>
+          </div>
+
+          <div class="arch-connector">↕</div>
+
+          <div class="arch-layer">
+            <div
+              class="arch-layer-dot"
+              style="background: #3b82f6; animation-delay: 0.5s"
+            ></div>
+            <span class="arch-layer-name">AriLinc Edge Layer</span>
+            <span class="arch-layer-tag">OPC-UA · MQTT · REST</span>
+          </div>
+
+          <div class="arch-connector">↕</div>
+
+          <div class="arch-layer">
+            <div
+              class="arch-layer-dot"
+              style="background: #f59e0b; animation-delay: 1s"
+            ></div>
+            <span class="arch-layer-name">AI Intelligence Engine</span>
+            <span class="arch-layer-tag">Predict · Detect · Optimise</span>
+          </div>
+
+          <div class="arch-connector">↕</div>
+
+          <div class="arch-layer">
+            <div
+              class="arch-layer-dot"
+              style="background: #8b5cf6; animation-delay: 1.5s"
+            ></div>
+            <span class="arch-layer-name">AriLinc Dashboard</span>
+            <span class="arch-layer-tag">Web · Mobile · Alerts</span>
+          </div>
+
+          <div class="arch-connector">↕</div>
+
+          <div class="arch-layer">
+            <div
+              class="arch-layer-dot"
+              style="background: #06b6d4; animation-delay: 2s"
+            ></div>
+            <span class="arch-layer-name">ERP · SAP · CMMS Integration</span>
+            <span class="arch-layer-tag">Maintenance Orders · Reports</span>
+          </div>
+
+          <div
+            style="
+              margin-top: 24px;
+              padding: 14px 18px;
+              background: rgba(245, 158, 11, 0.06);
+              border: 1px solid rgba(245, 158, 11, 0.2);
+              border-radius: 8px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 8px;
+            "
+          >
+            <span
+              style="
+                font-family: 'DM Mono', monospace;
+                font-size: 11px;
+                color: var(--gold);
+              "
+              >DEPLOYMENT OPTIONS</span
+            >
+            <div style="display: flex; gap: 10px; flex-wrap: wrap">
+              <span
+                style="
+                  font-size: 11px;
+                  color: var(--silver);
+                  background: var(--bg);
+                  padding: 3px 10px;
+                  border-radius: 4px;
+                  border: 1px solid var(--border);
+                "
+                >On-Premise</span
+              >
+              <span
+                style="
+                  font-size: 11px;
+                  color: var(--silver);
+                  background: var(--bg);
+                  padding: 3px 10px;
+                  border-radius: 4px;
+                  border: 1px solid var(--border);
+                "
+                >Private Cloud</span
+              >
+              <span
+                style="
+                  font-size: 11px;
+                  color: var(--silver);
+                  background: var(--bg);
+                  padding: 3px 10px;
+                  border-radius: 4px;
+                  border: 1px solid var(--border);
+                "
+                >Hybrid</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── INDUSTRIES ── -->
+    <section class="industries" id="industries">
+      <p class="industries-label">Industries we serve</p>
+      <div class="industries-pills reveal">
+        <div class="industry-pill">⚡ Steel & Metals</div>
+        <div class="industry-pill">🥛 Dairy & Food Processing</div>
+        <div class="industry-pill">⚗️ Pharmaceutical</div>
+        <div class="industry-pill">🔋 Battery & EV Manufacturing</div>
+        <div class="industry-pill">🏗️ Tiles & Ceramics</div>
+        <div class="industry-pill">🌾 Grain & Milling</div>
+        <div class="industry-pill">🏭 General Manufacturing</div>
+        <div class="industry-pill">💧 Water & Utilities</div>
+        <div class="industry-pill">🛢️ Oil & Gas</div>
+        <div class="industry-pill">🚗 Automotive</div>
+      </div>
+
+      <div
+        style="
+          max-width: 1280px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1px;
+          background: var(--border);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          overflow: hidden;
+        "
+        class="reveal"
+      >
+        <div style="background: var(--bg3); padding: 32px; text-align: center">
+          <div
+            style="
+              font-family: 'Bebas Neue', sans-serif;
+              font-size: 42px;
+              color: var(--gold);
+              letter-spacing: 2px;
+            "
+          >
+            90
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 600;
+              color: var(--silver);
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            Days to Live
+          </div>
+        </div>
+        <div style="background: var(--bg3); padding: 32px; text-align: center">
+          <div
+            style="
+              font-family: 'Bebas Neue', sans-serif;
+              font-size: 42px;
+              color: var(--gold);
+              letter-spacing: 2px;
+            "
+          >
+            Rs 0
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 600;
+              color: var(--silver);
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            Hardware Needed
+          </div>
+        </div>
+        <div style="background: var(--bg3); padding: 32px; text-align: center">
+          <div
+            style="
+              font-family: 'Bebas Neue', sans-serif;
+              font-size: 42px;
+              color: var(--gold);
+              letter-spacing: 2px;
+            "
+          >
+            6mo
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 600;
+              color: var(--silver);
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            Typical Payback
+          </div>
+        </div>
+        <div style="background: var(--bg3); padding: 32px; text-align: center">
+          <div
+            style="
+              font-family: 'Bebas Neue', sans-serif;
+              font-size: 42px;
+              color: var(--gold);
+              letter-spacing: 2px;
+            "
+          >
+            30
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 600;
+              color: var(--silver);
+              letter-spacing: 0.5px;
+              margin-top: 4px;
+            "
+          >
+            Day Pilot First
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section">
+      <div class="cta-glow"></div>
+      <div class="reveal">
+        <div class="section-label" style="justify-content: center">
+          Ready to start
+        </div>
+        <h2 class="cta-title">
+          YOUR PLANT.<br /><span>OUR AI.</span><br />YOUR ROI.
+        </h2>
+        <p class="cta-desc">
+          We prove ROI before you sign a long-term contract. Start with a 30-day
+          pilot on one production line. Measure results. You decide.
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <a
+            href="mailto:info@ariprus.com"
+            class="btn-primary"
+            style="font-size: 16px; padding: 16px 40px"
+            >Book a Demo →</a
+          >
+          <a
+            href="https://arilinc.ariprus.com"
+            target="_blank"
+            class="btn-secondary"
+            style="font-size: 16px; padding: 16px 40px"
+            >Explore Platform</a
+          >
+        </div>
+        <p style="margin-top: 32px; font-size: 13px; color: var(--silver)">
+          No commitment · 30-day pilot · ROI measured before expansion
+        </p>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <div class="footer-brand">Ari<span>Linc</span> · by AriPrus</div>
+      <div class="footer-links">
+        <a href="https://arilinc.ariprus.com" target="_blank">Platform</a>
+        <a href="https://steel.ariprus.com" target="_blank">Steel</a>
+        <a href="https://cip.ariprus.com" target="_blank">Dairy CIP</a>
+        <a href="https://pharma.ariprus.com" target="_blank">Pharma</a>
+        <a href="https://battery.ariprus.com" target="_blank">Battery</a>
+        <a href="https://tiles.ariprus.com" target="_blank">Tiles</a>
+        <a href="https://grain.ariprus.com" target="_blank">Grain</a>
+        <a href="mailto:info@ariprus.com">Contact</a>
+      </div>
+      <p class="footer-copy">
+        © 2026 AriPrus · All rights reserved · info@ariprus.com
+      </p>
+    </footer>
+
+    <script>
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => entry.target.classList.add("visible"), i * 80);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
+      );
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      // Stagger vertical cards
+      document.querySelectorAll(".vertical-card").forEach((card, i) => {
+        card.style.transitionDelay = `${i * 60}ms`;
+      });
+
+      // Nav scroll effect
+      window.addEventListener("scroll", () => {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 40) {
+          nav.style.background = "rgba(8,12,18,0.96)";
+          nav.style.boxShadow = "0 4px 32px rgba(0,0,0,0.4)";
+        } else {
+          nav.style.background = "rgba(8,12,18,0.85)";
+          nav.style.boxShadow = "none";
+        }
+      });
+
+      // Animated counter on scroll
+      const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const original = el.textContent;
+            // only animate pure numbers
+            if (/^\d+$/.test(original)) {
+              const target = parseInt(original);
+              let current = 0;
+              const step = Math.ceil(target / 30);
+              const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = current;
+                if (current >= target) clearInterval(timer);
+              }, 40);
+            }
+            counterObserver.unobserve(el);
+          }
+        });
+      });
+
+      document
+        .querySelectorAll(".stat-value")
+        .forEach((el) => counterObserver.observe(el));
+    </script>
   </body>
 </html>
