@@ -1,1813 +1,862 @@
 <!DOCTYPE html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AriLinc — Agentic AI for Industrial Manufacturing | AriPrus</title>
-    <meta
-      name="description"
-      content="AriLinc is an Agentic AI platform that delivers predictive intelligence across 7 industrial verticals — from steel mills to dairy farms, pharma to battery manufacturing."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #080c12;
-        --bg2: #0d1420;
-        --bg3: #111827;
-        --gold: #f59e0b;
-        --gold2: #fbbf24;
-        --gold3: #fde68a;
-        --silver: #94a3b8;
-        --silver2: #cbd5e1;
-        --white: #f8fafc;
-        --border: rgba(255, 255, 255, 0.08);
-        --border2: rgba(245, 158, 11, 0.3);
-        --red: #ef4444;
-        --green: #10b981;
-        --blue: #3b82f6;
-        --teal: #06b6d4;
-        --purple: #8b5cf6;
-        --orange: #f97316;
-        --amber: #d97706;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        background: var(--bg);
-        color: var(--white);
-        font-family: "DM Sans", sans-serif;
-        font-size: 16px;
-        line-height: 1.6;
-        overflow-x: hidden;
-      }
-
-      /* ── NOISE TEXTURE OVERLAY ── */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0.4;
-      }
-
-      /* ── NAV ── */
-      nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        padding: 0 48px;
-        height: 68px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: rgba(8, 12, 18, 0.85);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--border);
-        transition: all 0.3s;
-      }
-
-      .nav-logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-      }
-
-      .nav-logo-mark {
-        width: 34px;
-        height: 34px;
-        background: var(--gold);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 18px;
-        color: var(--bg);
-        letter-spacing: 1px;
-        flex-shrink: 0;
-      }
-
-      .nav-logo-text {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 32px;
-        color: var(--white);
-        letter-spacing: 2px;
-      }
-
-      .nav-logo-text span {
-        color: var(--gold);
-      }
-
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 32px;
-        list-style: none;
-      }
-
-      .nav-links a {
-        text-decoration: none;
-        color: var(--silver);
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        transition: color 0.2s;
-      }
-
-      .nav-links a:hover {
-        color: var(--white);
-      }
-
-      .nav-cta {
-        background: var(--gold) !important;
-        color: var(--bg) !important;
-        padding: 8px 20px;
-        border-radius: 6px;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        transition: all 0.2s !important;
-        white-space: nowrap;
-      }
-
-      .nav-cta:hover {
-        background: var(--gold2) !important;
-        transform: translateY(-1px);
-      }
-
-      /* ── HERO ── */
-      .hero {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 120px 48px 80px;
-        overflow: hidden;
-      }
-
-      /* Animated grid background */
-      .hero-grid {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(
-            rgba(245, 158, 11, 0.04) 1px,
-            transparent 1px
-          ),
-          linear-gradient(90deg, rgba(245, 158, 11, 0.04) 1px, transparent 1px);
-        background-size: 60px 60px;
-        mask-image: radial-gradient(
-          ellipse 80% 80% at 50% 50%,
-          black 30%,
-          transparent 100%
-        );
-        animation: gridPulse 8s ease-in-out infinite;
-      }
-
-      @keyframes gridPulse {
-        0%,
-        100% {
-          opacity: 0.6;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-
-      /* Glowing orbs */
-      .hero-orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(100px);
-        pointer-events: none;
-        animation: orbFloat 12s ease-in-out infinite;
-      }
-
-      .hero-orb-1 {
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(
-          circle,
-          rgba(245, 158, 11, 0.12) 0%,
-          transparent 70%
-        );
-        top: -200px;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .hero-orb-2 {
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(
-          circle,
-          rgba(59, 130, 246, 0.08) 0%,
-          transparent 70%
-        );
-        bottom: 0;
-        left: -100px;
-        animation-delay: -4s;
-      }
-
-      .hero-orb-3 {
-        width: 350px;
-        height: 350px;
-        background: radial-gradient(
-          circle,
-          rgba(139, 92, 246, 0.07) 0%,
-          transparent 70%
-        );
-        bottom: 100px;
-        right: -50px;
-        animation-delay: -8s;
-      }
-
-      @keyframes orbFloat {
-        0%,
-        100% {
-          transform: translateY(0) scale(1);
-        }
-        33% {
-          transform: translateY(-30px) scale(1.05);
-        }
-        66% {
-          transform: translateY(20px) scale(0.97);
-        }
-      }
-
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(245, 158, 11, 0.1);
-        border: 1px solid rgba(245, 158, 11, 0.25);
-        border-radius: 100px;
-        padding: 6px 16px;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--gold3);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 32px;
-        animation: fadeUp 0.8s ease both;
-      }
-
-      .hero-badge-dot {
-        width: 6px;
-        height: 6px;
-        background: var(--gold);
-        border-radius: 50%;
-        animation: blinkDot 2s infinite;
-      }
-
-      @keyframes blinkDot {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.2;
-        }
-      }
-
-      .hero-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(64px, 10vw, 120px);
-        line-height: 0.9;
-        letter-spacing: 4px;
-        color: var(--white);
-        margin-bottom: 8px;
-        animation: fadeUp 0.8s 0.1s ease both;
-      }
-
-      .hero-title-gold {
-        color: var(--gold);
-        display: block;
-      }
-
-      .hero-sub {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(28px, 4vw, 48px);
-        letter-spacing: 6px;
-        color: var(--silver);
-        margin-bottom: 40px;
-        animation: fadeUp 0.8s 0.2s ease both;
-      }
-
-      .hero-desc {
-        max-width: 640px;
-        font-size: 18px;
-        line-height: 1.7;
-        color: var(--silver2);
-        margin-bottom: 48px;
-        animation: fadeUp 0.8s 0.3s ease both;
-      }
-
-      .hero-desc strong {
-        color: var(--white);
-      }
-
-      .hero-actions {
-        display: flex;
-        gap: 16px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 80px;
-        animation: fadeUp 0.8s 0.4s ease both;
-      }
-
-      .btn-primary {
-        background: var(--gold);
-        color: var(--bg);
-        text-decoration: none;
-        padding: 14px 32px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 15px;
-        transition: all 0.2s;
-        letter-spacing: 0.3px;
-      }
-
-      .btn-primary:hover {
-        background: var(--gold2);
-        transform: translateY(-2px);
-        box-shadow: 0 12px 32px rgba(245, 158, 11, 0.3);
-      }
-
-      .btn-secondary {
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--white);
-        text-decoration: none;
-        padding: 14px 32px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 15px;
-        border: 1px solid var(--border);
-        transition: all 0.2s;
-      }
-
-      .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-      }
-
-      /* ── STATS BAR ── */
-      .stats-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  gap: 20px;
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AriLinc — Pharmaceutical Manufacturing Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Unbounded:wght@600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#F5F7FA;--bg2:#EBEEf3;--bg3:#FFFFFF;--card:#FFFFFF;
+  --navy:#0A1628;--blue:#1E4D9B;--blueLt:#2E6DD4;--blueBg:rgba(30,77,155,.07);
+  --teal:#0C7A6E;--tealBg:rgba(12,122,110,.07);
+  --violet:#5B3FA0;--violetBg:rgba(91,63,160,.07);
+  --green:#166534;--greenBg:rgba(22,101,52,.07);
+  --amber:#92400E;--amberBg:rgba(146,64,14,.08);
+  --red:#991B1B;--redBg:rgba(153,27,27,.07);
+  --white:#FFFFFF;--t1:#0A1628;--t2:#445572;--t3:#8898AA;
+  --border:rgba(30,77,155,.12);--borderHi:rgba(30,77,155,.28);
+  --shadow:0 2px 12px rgba(10,22,40,.1);--shadow-lg:0 8px 32px rgba(10,22,40,.15);
+  --nav-h:62px;
 }
-
-      .stat-item {
-        flex: 1;
-        padding: 24px 20px;
-        text-align: center;
-        border-right: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.02);
-        transition: background 0.2s;
-      }
-
-      .stat-item:last-child {
-        border-right: none;
-      }
-      .stat-item:hover {
-        background: rgba(245, 158, 11, 0.05);
-      }
-
-      .stat-value {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 36px;
-        letter-spacing: 2px;
-        color: var(--gold);
-        display: block;
-        line-height: 1;
-        margin-bottom: 4px;
-      }
-
-      .stat-label {
-        font-size: 11px;
-        font-weight: 500;
-        color: var(--silver);
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-      }
-
-      /* ── SECTION COMMON ── */
-      section {
-        position: relative;
-        z-index: 1;
-      }
-
-      .section-label {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .section-label::before {
-        content: "";
-        width: 24px;
-        height: 2px;
-        background: var(--gold);
-        display: block;
-      }
-
-      .section-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(36px, 5vw, 56px);
-        letter-spacing: 3px;
-        line-height: 1;
-        margin-bottom: 16px;
-      }
-
-      .section-desc {
-        font-size: 17px;
-        color: var(--silver2);
-        max-width: 560px;
-        line-height: 1.7;
-      }
-
-      /* ── VERTICALS SECTION ── */
-      .verticals {
-        padding: 100px 48px;
-        background: var(--bg2);
-      }
-
-      .verticals-header {
-        max-width: 1280px;
-        margin: 0 auto 64px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        flex-wrap: wrap;
-        gap: 32px;
-      }
-
-      .verticals-grid {
-        max-width: 1280px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-      }
-
-      .vertical-card {
-        position: relative;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 32px;
-        text-decoration: none;
-        color: inherit;
-        overflow: hidden;
-        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        cursor: pointer;
-        display: block;
-      }
-
-      .vertical-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.02) 0%,
-          transparent 60%
-        );
-        pointer-events: none;
-      }
-
-      .vertical-card::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: var(--card-color, var(--gold));
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.35s ease;
-      }
-
-      .vertical-card:hover {
-        transform: translateY(-6px);
-        border-color: var(--card-color, var(--gold));
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
-          0 0 0 1px var(--card-color, var(--gold));
-      }
-
-      .vertical-card:hover::after {
-        transform: scaleX(1);
-      }
-
-      .card-icon-wrap {
-        width: 56px;
-        height: 56px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        margin-bottom: 20px;
-        background: var(--card-bg, rgba(245, 158, 11, 0.1));
-        border: 1px solid var(--card-border, rgba(245, 158, 11, 0.2));
-        transition: transform 0.3s ease;
-      }
-
-      .vertical-card:hover .card-icon-wrap {
-        transform: scale(1.1) rotate(-3deg);
-      }
-
-      .card-tag {
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--card-color, var(--gold));
-        margin-bottom: 8px;
-      }
-
-      .card-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 26px;
-        letter-spacing: 2px;
-        color: var(--white);
-        margin-bottom: 10px;
-        line-height: 1;
-      }
-
-      .card-desc {
-        font-size: 13px;
-        color: var(--silver);
-        line-height: 1.6;
-        margin-bottom: 24px;
-      }
-
-      .card-features {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        margin-bottom: 28px;
-      }
-
-      .card-feature {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: var(--silver2);
-      }
-
-      .card-feature::before {
-        content: "";
-        width: 4px;
-        height: 4px;
-        background: var(--card-color, var(--gold));
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-
-      .card-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 20px;
-        border-top: 1px solid var(--border);
-      }
-
-      .card-kpi {
-        font-family: "DM Mono", monospace;
-        font-size: 13px;
-        color: var(--card-color, var(--gold));
-        font-weight: 500;
-      }
-
-      .card-link {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--card-color, var(--gold));
-        letter-spacing: 0.5px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        transition: gap 0.2s;
-      }
-
-      .vertical-card:hover .card-link {
-        gap: 10px;
-      }
-
-      /* ── PLATFORM SECTION ── */
-      .platform {
-        padding: 100px 48px;
-        background: var(--bg);
-      }
-
-      .platform-inner {
-        max-width: 1280px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 80px;
-        align-items: center;
-      }
-
-      .platform-features {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin-top: 48px;
-      }
-
-      .platform-feature {
-        display: flex;
-        gap: 16px;
-        padding: 20px;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        transition: border-color 0.2s, transform 0.2s;
-      }
-
-      .platform-feature:hover {
-        border-color: rgba(245, 158, 11, 0.3);
-        transform: translateX(4px);
-      }
-
-      .pf-icon {
-        font-size: 24px;
-        flex-shrink: 0;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .pf-title {
-        font-weight: 700;
-        font-size: 15px;
-        color: var(--white);
-        margin-bottom: 4px;
-      }
-
-      .pf-desc {
-        font-size: 13px;
-        color: var(--silver);
-        line-height: 1.5;
-      }
-
-      /* Architecture diagram */
-      .arch-diagram {
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 32px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .arch-title {
-        font-family: "DM Mono", monospace;
-        font-size: 11px;
-        color: var(--gold);
-        letter-spacing: 2px;
-        margin-bottom: 24px;
-        text-transform: uppercase;
-      }
-
-      .arch-layer {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 14px 18px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        transition: border-color 0.2s;
-        position: relative;
-      }
-
-      .arch-layer:hover {
-        border-color: rgba(245, 158, 11, 0.3);
-      }
-
-      .arch-layer-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex-shrink: 0;
-        animation: layerPulse 2s infinite;
-      }
-
-      @keyframes layerPulse {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.4;
-        }
-      }
-
-      .arch-layer-name {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--white);
-        flex: 1;
-      }
-
-      .arch-layer-tag {
-        font-family: "DM Mono", monospace;
-        font-size: 10px;
-        color: var(--silver);
-        background: rgba(255, 255, 255, 0.05);
-        padding: 2px 8px;
-        border-radius: 4px;
-      }
-
-      .arch-connector {
-        text-align: center;
-        color: var(--silver);
-        font-size: 18px;
-        margin: -4px 0;
-        opacity: 0.4;
-      }
-
-      /* ── INDUSTRY COUNT SECTION ── */
-      .industries {
-        padding: 80px 48px;
-        background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-        text-align: center;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-      }
-
-      .industries-label {
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--silver);
-        margin-bottom: 32px;
-      }
-
-      .industries-pills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        justify-content: center;
-        max-width: 900px;
-        margin: 0 auto 48px;
-      }
-
-      .industry-pill {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-radius: 100px;
-        padding: 8px 18px;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--silver2);
-        transition: all 0.2s;
-        cursor: default;
-      }
-
-      .industry-pill:hover {
-        border-color: var(--gold);
-        color: var(--white);
-        background: rgba(245, 158, 11, 0.08);
-      }
-
-      /* ── CTA SECTION ── */
-      .cta-section {
-        padding: 120px 48px;
-        background: var(--bg2);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .cta-glow {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(
-          circle,
-          rgba(245, 158, 11, 0.08) 0%,
-          transparent 70%
-        );
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-      }
-
-      .cta-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(48px, 7vw, 80px);
-        letter-spacing: 4px;
-        line-height: 1;
-        margin-bottom: 24px;
-      }
-
-      .cta-title span {
-        color: var(--gold);
-      }
-
-      .cta-desc {
-        font-size: 18px;
-        color: var(--silver2);
-        max-width: 520px;
-        margin: 0 auto 48px;
-        line-height: 1.7;
-      }
-
-      /* ── FOOTER ── */
-      footer {
-        padding: 48px;
-        background: var(--bg);
-        border-top: 1px solid var(--border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 24px;
-        max-width: 100%;
-      }
-
-      .footer-brand {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 20px;
-        letter-spacing: 2px;
-        color: var(--white);
-      }
-
-      .footer-brand span {
-        color: var(--gold);
-      }
-
-      .footer-links {
-        display: flex;
-        gap: 24px;
-      }
-
-      .footer-links a {
-        font-size: 13px;
-        color: var(--silver);
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-
-      .footer-links a:hover {
-        color: var(--white);
-      }
-
-      .footer-copy {
-        font-size: 12px;
-        color: var(--silver);
-        opacity: 0.6;
-      }
-
-      /* ── ANIMATIONS ── */
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(24px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .reveal {
-        opacity: 0;
-        transform: translateY(32px);
-        transition: opacity 0.7s ease, transform 0.7s ease;
-      }
-
-      .reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* ── RESPONSIVE ── */
-      @media (max-width: 1024px) {
-        .verticals-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .platform-inner {
-          grid-template-columns: 1fr;
-          gap: 48px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        nav {
-          padding: 0 24px;
-        }
-        .nav-links {
-          display: none;
-        }
-        .hero,
-        .verticals,
-        .platform,
-        .cta-section {
-          padding-left: 24px;
-          padding-right: 24px;
-        }
-        .verticals-grid {
-          grid-template-columns: 1fr;
-        }
-        .stats-bar {
-          flex-wrap: wrap;
-        }
-        .stat-item {
-          min-width: 120px;
-          border-bottom: 1px solid var(--border);
-        }
-        footer {
-          flex-direction: column;
-          text-align: center;
-          padding: 32px 24px;
-        }
-        .footer-links {
-          flex-wrap: wrap;
-          justify-content: center;
-        }
-      }
-
-      /* ── HORIZONTAL MARQUEE ── */
-      .marquee-wrapper {
-        overflow: hidden;
-        padding: 20px 0;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-        background: var(--bg3);
-      }
-
-      .marquee-track {
-        display: flex;
-        gap: 48px;
-        animation: marqueeScroll 30s linear infinite;
-        white-space: nowrap;
-        width: max-content;
-      }
-
-      .marquee-track:hover {
-        animation-play-state: paused;
-      }
-
-      .marquee-item {
-        font-family: "DM Mono", monospace;
-        font-size: 12px;
-        color: var(--silver);
-        letter-spacing: 1px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .marquee-dot {
-        color: var(--gold);
-        font-size: 8px;
-      }
-
-      @keyframes marqueeScroll {
-        from {
-          transform: translateX(0);
-        }
-        to {
-          transform: translateX(-50%);
-        }
-      }
-
-      /* ── PULSE LINE ── */
-      .pulse-line {
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          var(--gold2),
-          var(--gold),
-          transparent
-        );
-        background-size: 200% 100%;
-        animation: pulseShimmer 3s ease infinite;
-        margin: 0;
-        border: none;
-      }
-
-      @keyframes pulseShimmer {
-        0% {
-          background-position: -200% 0;
-        }
-        100% {
-          background-position: 200% 0;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- ── NAVIGATION ── -->
-    <nav>
-      <a href="https://ariprus.com" class="nav-logo">
-        <div class="nav-logo-mark">AP</div>
-        <span class="nav-logo-text">Ari<span>Linc</span></span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#verticals">Solutions</a></li>
-        <li><a href="#platform">Platform</a></li>
-        <li><a href="#industries">Industries</a></li>
-        <li>
-          <a href="https://ariprus.com/company/about-us/" target="_blank"
-            >Company</a>
-        </li>
-        <li>
-           <a
-            href="https://ariprus.com/pricing/" target="_blank"
-            class="btn-primary"
-            style="font-size: 12px; color:#000000; padding: 16px 20px"
-            >Pricing </a
-          >
-                  
-        </li>
-      </ul>
-    </nav>
-
-    <!-- ── HERO ── -->
-    <section class="hero">
-      <div class="hero-grid"></div>
-      <div class="hero-orb hero-orb-1"></div>
-      <div class="hero-orb hero-orb-2"></div>
-      <div class="hero-orb hero-orb-3"></div>
-
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Agentic AI · Industrial Intelligence Platform
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--t1);overflow-x:hidden;line-height:1.55}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:#BCC8D8;border-radius:2px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nav-h);background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.nw{max-width:1400px;margin:0 auto;height:var(--nav-h);display:flex;align-items:center;padding:0 24px;gap:0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.bmark{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.bmark svg{width:18px;height:18px}
+.bname{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:var(--navy);letter-spacing:-.3px;line-height:1}
+.bsub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.3px;margin-top:1px}
+.ndiv{width:1px;height:26px;background:var(--border);margin:0 18px;flex-shrink:0}
+.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.ntabs::-webkit-scrollbar{display:none}
+.nt{padding:6px 12px;border-radius:7px;font-size:12.5px;font-weight:500;color:var(--t2);cursor:pointer;border:none;background:none;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:5px}
+.nt:hover{color:var(--t1);background:var(--bg2)}
+.nt.active{color:var(--blue);background:var(--blueBg);font-weight:600}
+.npip{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.nright{margin-left:auto;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nclock{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t3)}
+.livepill{display:flex;align-items:center;gap:5px;padding:3px 10px;background:var(--greenBg);border:1px solid rgba(22,101,52,.2);border-radius:100px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--green);font-weight:500}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.btncta{background:var(--blue);color:#fff;border:none;padding:8px 18px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;transition:all .2s}
+.btncta:hover{background:var(--blueLt);transform:translateY(-1px);box-shadow:0 4px 16px rgba(30,77,155,.3)}
+
+/* VIEWS */
+.view{display:none;padding:calc(var(--nav-h)+20px) 24px 48px}
+.view.active{display:block}
+.vw{max-width:1400px;margin:0 auto}
+
+/* HERO BANNER */
+.hero-band{background:linear-gradient(135deg,#0A1628 0%,#1E4D9B 60%,#2461C2 100%);border-radius:16px;padding:32px 40px;margin-bottom:20px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.hb-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hb-glow{position:absolute;top:-20%;right:5%;width:500px;height:400px;background:radial-gradient(ellipse,rgba(255,255,255,.07) 0%,transparent 60%);pointer-events:none}
+.hbl{position:relative;z-index:2}
+.hb-ey{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:4px 12px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:rgba(255,255,255,.8);letter-spacing:.5px;margin-bottom:12px}
+.hb-h{font-family:'Unbounded',sans-serif;font-size:clamp(20px,2.8vw,32px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:8px}
+.hb-sub{font-size:13px;color:rgba(255,255,255,.65);line-height:1.65;max-width:440px;font-weight:300}
+.hbr{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hbk{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:14px}
+.hbk-val{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1}
+.hbk-lbl{font-size:10px;color:rgba(255,255,255,.6);margin-top:4px}
+.hbk.ac{background:rgba(255,255,255,.17);border-color:rgba(255,255,255,.25)}
+.hbk.ac .hbk-val{color:#FCD34D}
+
+/* SHARED */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow)}
+.ph{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.pt{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--t3)}
+.pb{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:100px}
+.pb-live{background:var(--greenBg);color:var(--green);animation:blink 1.4s infinite}
+.pb-blue{background:var(--blueBg);color:var(--blue)}
+.pb-teal{background:var(--tealBg);color:var(--teal)}
+.pb-amber{background:var(--amberBg);color:var(--amber)}
+.pb-vio{background:var(--violetBg);color:var(--violet)}
+.pb-red{background:var(--redBg);color:var(--red)}
+.pbd{padding:15px 17px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g21{display:grid;grid-template-columns:1.6fr 1fr;gap:14px}
+.g12{display:grid;grid-template-columns:1fr 1.6fr;gap:14px}
+.col{display:flex;flex-direction:column;gap:14px}
+.mb4{margin-bottom:16px}.mb5{margin-bottom:20px}
+.krow{display:grid;gap:12px;margin-bottom:18px}
+.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}
+.kcard{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:15px 17px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:all .2s}
+.kcard:hover{border-color:var(--borderHi);transform:translateY(-1px)}
+.kacc{position:absolute;top:0;left:0;right:0;height:3px}
+.knum{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;color:var(--t1);line-height:1;margin-bottom:3px}
+.klbl{font-size:12px;color:var(--t2);font-weight:500}
+.kdelta{font-size:10px;font-family:'IBM Plex Mono',monospace;margin-top:5px}
+.dg{color:var(--green)}.dr{color:var(--red)}.da{color:var(--amber)}.db{color:var(--blue)}
+
+/* DATA TABLE */
+.dtable{width:100%;border-collapse:collapse;font-size:12px}
+.dtable th{background:var(--bg2);color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
+.dtable td{padding:9px 12px;border-bottom:1px solid rgba(30,77,155,.05);color:var(--t1)}
+.dtable tr:last-child td{border-bottom:none}
+.dtable tr:hover td{background:var(--bg)}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:11px}
+.val-g{color:var(--green);font-weight:600}.val-a{color:var(--amber);font-weight:600}.val-r{color:var(--red);font-weight:600}.val-b{color:var(--blue);font-weight:600}
+.pill{font-size:10px;padding:2px 8px;border-radius:100px;font-family:'IBM Plex Mono',monospace;font-weight:600;display:inline-block}
+.pl-pass{background:var(--greenBg);color:var(--green)}.pl-warn{background:var(--amberBg);color:var(--amber)}.pl-fail{background:var(--redBg);color:var(--red)}.pl-blue{background:var(--blueBg);color:var(--blue)}
+
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px}
+.bar-lbl{width:160px;color:var(--t2);flex-shrink:0;font-size:11.5px}
+.bar-track{flex:1;height:7px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 1.5s ease}
+.bar-val{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t2);width:44px;text-align:right;flex-shrink:0}
+
+/* BATCH CARDS */
+.batch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.bc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px;transition:all .2s;box-shadow:var(--shadow)}
+.bc:hover{border-color:var(--borderHi);transform:translateY(-2px)}
+.bc.run{border-left:3px solid var(--blue)}
+.bc.warn{border-left:3px solid var(--amber)}
+.bc.done{border-left:3px solid var(--green)}
+.bc.fail{border-left:3px solid var(--red)}
+.bc-id{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);margin-bottom:3px}
+.bc-prod{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:6px}
+.bc-val{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;line-height:1}
+.bc-prog{height:4px;background:var(--bg2);border-radius:2px;margin-top:8px;overflow:hidden}
+.bc-fill{height:100%;border-radius:2px;transition:width .8s}
+
+/* ALERT FEED */
+.afd{display:flex;flex-direction:column;gap:7px;max-height:300px;overflow-y:auto}
+.af{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:8px;font-size:12px}
+.af-ok{background:var(--greenBg);color:var(--green)}.af-w{background:var(--amberBg);color:var(--amber)}.af-a{background:var(--redBg);color:var(--red)}.af-i{background:var(--blueBg);color:var(--blue)}
+.aftime{font-family:'IBM Plex Mono',monospace;font-size:10px;opacity:.7;flex-shrink:0;padding-top:1px}
+
+/* COMPLIANCE */
+.comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.compcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow)}
+.comp-score{font-family:'Unbounded',sans-serif;font-size:36px;font-weight:700;line-height:1;margin-bottom:5px}
+.comp-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.comp-chip{font-size:10px;font-family:'IBM Plex Mono',monospace;padding:3px 9px;border-radius:100px;font-weight:600;display:inline-block}
+.comp-note{font-size:11px;color:var(--t3);margin-top:6px;line-height:1.4}
+
+/* CIP/SIP */
+.cip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.cipc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px;box-shadow:var(--shadow)}
+.cipc.run{border-left:3px solid var(--teal)}.cipc.done{border-left:3px solid var(--green)}.cipc.sip{border-left:3px solid var(--violet)}
+.cipc-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.cipc-phase{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--t3);margin-bottom:7px}
+.cipc-val{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;line-height:1}
+.cipc-unit{font-size:10px;color:var(--t3)}
+.cipc-prog{height:3px;background:var(--bg2);border-radius:2px;margin-top:7px;overflow:hidden}
+
+/* ESG / VALUE */
+.bv-ucgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.bvuc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow);transition:all .2s}
+.bvuc:hover{border-color:var(--borderHi);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.bvuc-ico{font-size:22px;margin-bottom:9px}
+.bvuc-num{font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;color:var(--t3);margin-bottom:4px}
+.bvuc-name{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.bvuc-val{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:700;margin-bottom:3px}
+.bvuc-per{font-size:11px;color:var(--t3);margin-bottom:10px}
+.bvuc-item{font-size:11px;color:var(--t2);display:flex;gap:5px;margin-bottom:3px}
+.bvuc-item::before{content:"·";color:var(--t3);flex-shrink:0}
+.pilot-card{background:var(--card);border:2px solid var(--blue);border-radius:14px;padding:22px 28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;box-shadow:var(--shadow-lg)}
+.pc-title{font-size:16px;font-weight:600;color:var(--t1);margin-bottom:6px}
+.pc-sub{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:12px}
+.pc-items{display:flex;gap:18px;flex-wrap:wrap}
+.pc-it{font-size:12px;color:var(--t2);display:flex;gap:5px}
+.pc-it strong{color:var(--t1)}
+.pc-rhs{display:flex;flex-direction:column;gap:10px;align-items:center;flex-shrink:0}
+.pc-cost-val{font-family:'Unbounded',sans-serif;font-size:28px;font-weight:700;color:var(--blue);text-align:center}
+.pc-cost-lbl{font-size:11px;color:var(--t3);text-align:center}
+.btn-pil{background:var(--blue);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;transition:all .2s}
+.btn-pil:hover{background:var(--blueLt);transform:translateY(-1px)}
+.btn-exp{background:transparent;color:var(--blue);border:1px solid var(--borderHi);padding:6px 13px;border-radius:7px;font-size:12px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;transition:background .2s}
+.btn-exp:hover{background:var(--blueBg)}
+.toast-el{position:fixed;bottom:22px;right:22px;z-index:600;background:var(--card);border:1px solid var(--borderHi);border-radius:10px;padding:11px 16px;font-size:13px;color:var(--blue);box-shadow:var(--shadow-lg);transform:translateY(130%);transition:transform .3s;max-width:280px;font-family:'IBM Plex Sans',sans-serif}
+.toast-el.show{transform:translateY(0)}
+.cfr-badge{background:var(--blueBg);color:var(--blue);border:1px solid var(--borderHi);border-radius:7px;padding:5px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;font-weight:600;display:inline-block;margin-right:6px}
+
+@media(max-width:1100px){.batch-grid{grid-template-columns:1fr 1fr}.cip-grid{grid-template-columns:1fr 1fr}.hbr{grid-template-columns:repeat(4,1fr)}.hero-band{grid-template-columns:1fr}}
+@media(max-width:768px){.ntabs{display:none}.g2,.g3,.g4,.g21,.g12{grid-template-columns:1fr}.k4,.k3{grid-template-columns:1fr 1fr}.bv-ucgrid{grid-template-columns:1fr}.comp-grid{grid-template-columns:1fr}.pilot-card{grid-template-columns:1fr}}
+@media(max-width:480px){.k4,.k3{grid-template-columns:1fr}.batch-grid,.cip-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nw">
+    <a class="brand" href="#">
+      <div class="bmark"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L16 14H2L9 2Z" fill="white" opacity=".9"/><circle cx="9" cy="10" r="2.2" fill="white"/></svg></div>
+      <div><div class="bname">AriLinc</div><div class="bsub">Pharma Manufacturing Intelligence</div></div>
+    </a>
+    <div class="ndiv"></div>
+    <div class="ntabs" id="navTabs">
+      <button class="nt active" onclick="sv('overview')" data-v="overview"><div class="npip" style="background:#1E4D9B"></div>Overview</button>
+      <button class="nt" onclick="sv('batch')" data-v="batch"><div class="npip" style="background:#0C7A6E"></div>Batch Intelligence</button>
+      <button class="nt" onclick="sv('quality')" data-v="quality"><div class="npip" style="background:#5B3FA0"></div>Quality &amp; Deviations</button>
+      <button class="nt" onclick="sv('cip')" data-v="cip"><div class="npip" style="background:#92400E"></div>CIP / SIP</button>
+      <button class="nt" onclick="sv('oee')" data-v="oee"><div class="npip" style="background:#166534"></div>OEE &amp; Maintenance</button>
+      <button class="nt" onclick="sv('compliance')" data-v="compliance"><div class="npip" style="background:#991B1B"></div>21 CFR Compliance</button>
+      <button class="nt" onclick="sv('value')" data-v="value"><div class="npip" style="background:#2E6DD4"></div>Business Value</button>
+    </div>
+    <div class="nright">
+      <div class="nclock" id="clk"></div>
+      <div class="livepill"><div class="ldot"></div>LIVE</div>
+      <button class="btncta" onclick="toast('Thank you — our team will contact you within 4 hours.')">Request Demo</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ OVERVIEW ═══════════════════════════════════════════════ -->
+<div class="view active" id="view-overview">
+  <div class="vw">
+    <div class="hero-band mb4">
+      <div class="hb-grid"></div><div class="hb-glow"></div>
+      <div class="hbl">
+        <div class="hb-ey"><div class="ldot" style="background:rgba(255,255,255,.8)"></div>GMP-Validated · 21 CFR Part 11 · EU Annex 11</div>
+        <div class="hb-h">Pharmaceutical Manufacturing<br/>Intelligence Platform</div>
+        <div class="hb-sub">AriLinc brings AI/ML to pharma batch manufacturing — predicting deviations, optimising yield, automating compliance records, and reducing OEE losses. Validated, audit-ready, and deployable in weeks.</div>
       </div>
-
-      <h1 class="hero-title">
-        THE BRAIN
-        <span class="hero-title-gold">YOUR PLANT</span>
-        DESERVES
-      </h1>
-
-      <p class="hero-sub">POWERED BY ARIPRUS</p>
-
-      <p class="hero-desc">
-        AriLinc is an <strong>Agentic AI platform</strong> that transforms your
-        industrial sensor data into real-time decisions — predicting failures,
-        optimising energy and eliminating yield losses across
-        <strong>7 verticals</strong>.
-      </p>
-
-      <div class="hero-actions">
-        <a href="#verticals" class="btn-primary">Explore All Solutions</a>
-        <a
-          href="https://arilinc.ariprus.com"
-          target="_blank"
-          class="btn-secondary"
-          >View Live Platform →</a
-        >
-      </div>
-
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span class="stat-value" data-count="7">7</span>
-          <span class="stat-label">Industry Verticals</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" data-count="30">30s</span>
-          <span class="stat-label">Avg Alert Response</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" data-count="6">6mo</span>
-          <span class="stat-label">Payback Period</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">98.7%</span>
-          <span class="stat-label">Compliance Rate</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">24/7</span>
-          <span class="stat-label">AI Monitoring</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── MARQUEE ── -->
-    <div class="marquee-wrapper">
-      <div class="marquee-track">
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> PREDICTIVE MAINTENANCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> ENERGY OPTIMISATION</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> QUALITY INTELLIGENCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> ATEX DUST SAFETY</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> 21 CFR PART 11 COMPLIANCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> FORMATION CYCLE AI</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> KILN TEMPERATURE
-          INTELLIGENCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> VISION AI DEFECT DETECTION</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> EAF ENERGY INTELLIGENCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> TOC CLEARANCE PREDICTION</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> ROOT CAUSE ANALYSIS</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> YIELD OPTIMISATION</span
-        >
-        <!-- duplicate for seamless loop -->
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> PREDICTIVE MAINTENANCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> ENERGY OPTIMISATION</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> QUALITY INTELLIGENCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> ATEX DUST SAFETY</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> 21 CFR PART 11 COMPLIANCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> FORMATION CYCLE AI</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> KILN TEMPERATURE
-          INTELLIGENCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> VISION AI DEFECT DETECTION</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> EAF ENERGY INTELLIGENCE</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> TOC CLEARANCE PREDICTION</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> ROOT CAUSE ANALYSIS</span
-        >
-        <span class="marquee-item"
-          ><span class="marquee-dot">●</span> YIELD OPTIMISATION</span
-        >
+      <div class="hbr">
+        <div class="hbk ac"><div class="hbk-val">Rs 32–56 Cr</div><div class="hbk-lbl">Annual value · per plant</div></div>
+        <div class="hbk"><div class="hbk-val">3–5%</div><div class="hbk-lbl">API yield uplift</div></div>
+        <div class="hbk"><div class="hbk-val">45%</div><div class="hbk-lbl">Deviation reduction</div></div>
+        <div class="hbk"><div class="hbk-val">100%</div><div class="hbk-lbl">21 CFR auto-compliance</div></div>
       </div>
     </div>
-
-    <hr class="pulse-line" />
-
-    <!-- ── VERTICALS SECTION ── -->
-    <section class="verticals" id="verticals">
-      <div class="verticals-header reveal">
-        <div>
-          <div class="section-label">Industry Solutions</div>
-          <h2 class="section-title">7 VERTICALS.<br />ONE PLATFORM.</h2>
+    <div class="krow k4 mb5" id="ovKPIs"></div>
+    <div class="g21">
+      <div class="col">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3);margin-bottom:8px">Active Batch Status</div>
+        <div class="batch-grid" id="ovBatches"></div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Plant Efficiency — 7-Day Trend</div><div class="pb pb-live">LIVE</div></div>
+          <div class="pbd" style="padding-top:8px"><canvas id="ovEffChart" height="160"></canvas></div>
         </div>
-        <p class="section-desc">
-          Every solution is a live, deployed demo — not a mockup. Click any card
-          to access the real platform your prospects will see.
-        </p>
       </div>
-
-      <div class="verticals-grid">
-        <!-- MAIN PLATFORM -->
-        <a
-          href="https://arilinc.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #f59e0b;
-            --card-bg: rgba(245, 158, 11, 0.08);
-            --card-border: rgba(245, 158, 11, 0.2);
-            grid-column: span 1;
-          "
-        >
-          <div class="card-icon-wrap">🏭</div>
-          <div class="card-tag">Flagship Platform</div>
-          <h3 class="card-title">ARILINC PLATFORM</h3>
-          <p class="card-desc">
-            The unified command centre — 4 sections covering Asset Dashboard, AI
-            Agents, Business Value and Executive View in one integrated
-            platform.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >3 Agentic AI pipelines (Maintenance · Energy · Quality)</span
-            >
-            <span class="card-feature"
-              >Live KPI dashboard with sensor health trends</span
-            >
-            <span class="card-feature"
-              >Interactive ROI calculator with sliders</span
-            >
-            
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">arilinc.ariprus.com</span>
-            <span class="card-link">Open Platform →</span>
-          </div>
-        </a>
-
-        <!-- STEEL -->
-        <a
-          href="https://steel.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #94a3b8;
-            --card-bg: rgba(148, 163, 184, 0.08);
-            --card-border: rgba(148, 163, 184, 0.2);
-          "
-        >
-          <div class="card-icon-wrap">⚡</div>
-          <div class="card-tag">Steel & Metals</div>
-          <h3 class="card-title">STEEL INTELLIGENCE</h3>
-          <p class="card-desc">
-            EAF energy optimisation, hot strip mill chatter detection, electrode
-            management and prime yield AI — full steelmaking intelligence.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >EAF transformer tap AI — Rs 1.8L saving per heat</span
-            >
-            <span class="card-feature"
-              >Roll chatter detection 2 coils before surface defects</span
-            >
-            <span class="card-feature"
-              >Electrode wear prediction — 3-heat advance warning</span
-            >
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">Rs 65/tonne saving</span>
-            <span class="card-link">Open Demo →</span>
-          </div>
-        </a>
-
-        <!-- DAIRY CIP -->
-        <a
-          href="https://cip.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #06b6d4;
-            --card-bg: rgba(6, 182, 212, 0.08);
-            --card-border: rgba(6, 182, 212, 0.2);
-          "
-        >
-          <div class="card-icon-wrap">🥛</div>
-          <div class="card-tag">Food & Beverage</div>
-          <h3 class="card-title">DAIRY CIP</h3>
-          <p class="card-desc">
-            Predictive CIP scheduling, chemical dosing optimisation and
-            compliance audit trail — purpose-built for dairy processing
-            operations.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >AI Soiling Index — condition-based vs time-based CIP</span
-            >
-            <span class="card-feature">40% unnecessary cycles eliminated</span>
-            <span class="card-feature"
-              >FSSC 22000 · HACCP · BRC audit trail — 1 click export</span
-            >
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">Rs 18–24L annual saving</span>
-            <span class="card-link">Open Demo →</span>
-          </div>
-        </a>
-
-        <!-- PHARMA CIP -->
-        <a
-          href="https://pharma.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #8b5cf6;
-            --card-bg: rgba(139, 92, 246, 0.08);
-            --card-border: rgba(139, 92, 246, 0.2);
-          "
-        >
-          <div class="card-icon-wrap">⚗️</div>
-          <div class="card-tag">Pharmaceutical</div>
-          <h3 class="card-title">PHARMA CIP</h3>
-          <p class="card-desc">
-            21 CFR Part 11 compliant CIP intelligence with electronic
-            signatures, ALCOA+ data integrity and GAMP 5 Category 4 validation.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >21 CFR Part 11 e-signatures — every release</span
-            >
-            <span class="card-feature"
-              >TOC clearance prediction — ≤0.5 mg/L before release</span
-            >
-            <span class="card-feature"
-              >FDA inspection-ready in one click — full audit trail</span
-            >
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">GMP Compliant · GAMP 5</span>
-            <span class="card-link">Open Demo →</span>
-          </div>
-        </a>
-
-        <!-- BATTERY -->
-        <a
-          href="https://battery.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #f97316;
-            --card-bg: rgba(249, 115, 22, 0.08);
-            --card-border: rgba(249, 115, 22, 0.2);
-          "
-        >
-          <div class="card-icon-wrap">🔋</div>
-          <div class="card-tag">EV · Energy Storage</div>
-          <h3 class="card-title">BATTERY MFG</h3>
-          <p class="card-desc">
-            Formation cycle AI, in-line defect detection, AI cell grading and
-            root cause analysis — intelligence across the full cell
-            manufacturing process.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >Formation capacity prediction mid-cycle — 94%+ accuracy</span
-            >
-            <span class="card-feature"
-              >AI cell grading — 12 parameters simultaneously</span
-            >
-            <span class="card-feature"
-              >Root cause identified in under 10 seconds</span
-            >
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">$1.8–4.2M annual saving</span>
-            <span class="card-link">Open Demo →</span>
-          </div>
-        </a>
-
-        <!-- TILES -->
-        <a
-          href="https://tiles.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #d97706;
-            --card-bg: rgba(217, 119, 6, 0.08);
-            --card-border: rgba(217, 119, 6, 0.2);
-          "
-        >
-          <div class="card-icon-wrap">🏗️</div>
-          <div class="card-tag">Ceramics · Porcelain</div>
-          <h3 class="card-title">TILES MFG</h3>
-          <p class="card-desc">
-            Kiln zone intelligence, Vision AI defect detection, predictive
-            maintenance and Grade A yield optimisation for tiles and ceramics
-            manufacturers.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >8-zone kiln temperature AI — warping risk prediction</span
-            >
-            <span class="card-feature"
-              >4,820 tiles/hr Vision AI inspection</span
-            >
-            <span class="card-feature"
-              >Roll wear and bearing predictive alerts</span
-            >
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">Rs 50L+ annual saving</span>
-            <span class="card-link">Open Demo →</span>
-          </div>
-        </a>
-
-        <!-- GRAIN MILLING -->
-        <a
-          href="https://grain.ariprus.com"
-          target="_blank"
-          class="vertical-card reveal"
-          style="
-            --card-color: #b45309;
-            --card-bg: rgba(180, 83, 9, 0.08);
-            --card-border: rgba(180, 83, 9, 0.2);
-          "
-        >
-          <div class="card-icon-wrap">🌾</div>
-          <div class="card-tag">Grain · Milling · Feed</div>
-          <h3 class="card-title">GRAIN & MILLING</h3>
-          <p class="card-desc">
-            ATEX dust explosion prevention, predictive maintenance and process
-            control for grain mills, flour factories and feed manufacturing
-            facilities.
-          </p>
-          <div class="card-features">
-            <span class="card-feature"
-              >ATEX dust LEL monitoring — suppression in 3 seconds</span
-            >
-            <span class="card-feature"
-              >Bearing failure prediction — 3-6 weeks advance warning</span
-            >
-            <span class="card-feature"
-              >AI moisture control — dryer efficiency 94%+</span
-            >
-          </div>
-          <div class="card-footer">
-            <span class="card-kpi">Rs 88L+ · Life safety</span>
-            <span class="card-link">Open Demo →</span>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- ── PLATFORM CAPABILITIES ── -->
-    <section class="platform" id="platform">
-      <div class="platform-inner">
-        <div class="reveal">
-          <div class="section-label">Platform Architecture</div>
-          <h2 class="section-title">ONE AI.<br />EVERY PLANT.</h2>
-          <p class="section-desc">
-            AriLinc connects to your existing sensors, PLCs and historians. No
-            rip-and-replace. AI intelligence layer deployed in 90 days.
-          </p>
-
-          <div class="platform-features">
-            <div class="platform-feature">
-              <div class="pf-icon">📡</div>
-              <div>
-                <div class="pf-title">Universal Connectivity</div>
-                <div class="pf-desc">
-                  OPC-UA, MQTT, Modbus, REST APIs. Connects to SCADA, DCS,
-                  historians, MES and ERP. Read-only — zero production risk.
-                </div>
-              </div>
-            </div>
-            <div class="platform-feature">
-              <div class="pf-icon">🤖</div>
-              <div>
-                <div class="pf-title">Agentic AI Engine</div>
-                <div class="pf-desc">
-                  AI agents that observe, reason and act — not just alert.
-                  Predicts, recommends and auto-corrects before humans are aware
-                  of the issue.
-                </div>
-              </div>
-            </div>
-            <div class="platform-feature">
-              <div class="pf-icon">⚡</div>
-              <div>
-                <div class="pf-title">Real-Time at Scale</div>
-                <div class="pf-desc">
-                  Sub-30-second alert response across thousands of sensor
-                  points. Edge-to-cloud architecture for latency-sensitive
-                  applications.
-                </div>
-              </div>
-            </div>
-            <div class="platform-feature">
-              <div class="pf-icon">🔒</div>
-              <div>
-                <div class="pf-title">Enterprise Security</div>
-                <div class="pf-desc">
-                  On-premise or private cloud deployment. Role-based access.
-                  Encryption at rest and in transit. Full audit trail — 21 CFR
-                  Part 11 ready.
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="col">
+        <div class="panel">
+          <div class="ph"><div class="pt">Live Alert Feed</div><div class="pb pb-live">REAL-TIME</div></div>
+          <div class="pbd" id="ovAlerts"></div>
         </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Module Status</div></div>
+          <div class="pbd" id="ovModules"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="arch-diagram reveal">
-          <div class="arch-title">// PLATFORM ARCHITECTURE</div>
-
-          <div class="arch-layer">
-            <div
-              class="arch-layer-dot"
-              style="background: #10b981; animation-delay: 0s"
-            ></div>
-            <span class="arch-layer-name">Plant Data Sources</span>
-            <span class="arch-layer-tag">Sensors · PLCs · SCADA · MES</span>
-          </div>
-
-          <div class="arch-connector">↕</div>
-
-          <div class="arch-layer">
-            <div
-              class="arch-layer-dot"
-              style="background: #3b82f6; animation-delay: 0.5s"
-            ></div>
-            <span class="arch-layer-name">AriLinc Edge Layer</span>
-            <span class="arch-layer-tag">OPC-UA · MQTT · REST</span>
-          </div>
-
-          <div class="arch-connector">↕</div>
-
-          <div class="arch-layer">
-            <div
-              class="arch-layer-dot"
-              style="background: #f59e0b; animation-delay: 1s"
-            ></div>
-            <span class="arch-layer-name">AI Intelligence Engine</span>
-            <span class="arch-layer-tag">Predict · Detect · Optimise</span>
-          </div>
-
-          <div class="arch-connector">↕</div>
-
-          <div class="arch-layer">
-            <div
-              class="arch-layer-dot"
-              style="background: #8b5cf6; animation-delay: 1.5s"
-            ></div>
-            <span class="arch-layer-name">AriLinc Dashboard</span>
-            <span class="arch-layer-tag">Web · Mobile · Alerts</span>
-          </div>
-
-          <div class="arch-connector">↕</div>
-
-          <div class="arch-layer">
-            <div
-              class="arch-layer-dot"
-              style="background: #06b6d4; animation-delay: 2s"
-            ></div>
-            <span class="arch-layer-name">ERP · SAP · CMMS Integration</span>
-            <span class="arch-layer-tag">Maintenance Orders · Reports</span>
-          </div>
-
-          <div
-            style="
-              margin-top: 24px;
-              padding: 14px 18px;
-              background: rgba(245, 158, 11, 0.06);
-              border: 1px solid rgba(245, 158, 11, 0.2);
-              border-radius: 8px;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-              gap: 8px;
-            "
-          >
-            <span
-              style="
-                font-family: 'DM Mono', monospace;
-                font-size: 11px;
-                color: var(--gold);
-              "
-              >DEPLOYMENT OPTIONS</span
-            >
-            <div style="display: flex; gap: 10px; flex-wrap: wrap">
-              <span
-                style="
-                  font-size: 11px;
-                  color: var(--silver);
-                  background: var(--bg);
-                  padding: 3px 10px;
-                  border-radius: 4px;
-                  border: 1px solid var(--border);
-                "
-                >On-Premise</span
-              >
-              <span
-                style="
-                  font-size: 11px;
-                  color: var(--silver);
-                  background: var(--bg);
-                  padding: 3px 10px;
-                  border-radius: 4px;
-                  border: 1px solid var(--border);
-                "
-                >Private Cloud</span
-              >
-              <span
-                style="
-                  font-size: 11px;
-                  color: var(--silver);
-                  background: var(--bg);
-                  padding: 3px 10px;
-                  border-radius: 4px;
-                  border: 1px solid var(--border);
-                "
-                >Hybrid</span
-              >
-            </div>
+<!-- ═══ BATCH INTELLIGENCE ════════════════════════════════════ -->
+<div class="view" id="view-batch">
+  <div class="vw">
+    <div class="krow k4 mb5" id="batchKPIs"></div>
+    <div class="g21">
+      <div class="col">
+        <div class="panel">
+          <div class="ph"><div class="pt">Batch Yield Prediction — API Manufacturing</div><div class="pb pb-live">LIVE · XGBoost + LSTM</div></div>
+          <div class="pbd" style="padding-top:8px"><canvas id="yieldChart" height="200"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Critical Process Parameters — Reactor R-04</div><div class="pb pb-teal">IN-PROCESS</div></div>
+          <div class="pbd">
+            <div id="cppBars"></div>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- ── INDUSTRIES ── -->
-    <section class="industries" id="industries">
-      <p class="industries-label">Industries we serve</p>
-      <div class="industries-pills reveal">
-        <div class="industry-pill">⚡ Steel & Metals</div>
-        <div class="industry-pill">🥛 Dairy & Food Processing</div>
-        <div class="industry-pill">⚗️ Pharmaceutical</div>
-        <div class="industry-pill">🔋 Battery & EV Manufacturing</div>
-        <div class="industry-pill">🏗️ Tiles & Ceramics</div>
-        <div class="industry-pill">🌾 Grain & Milling</div>
-        <div class="industry-pill">🏭 General Manufacturing</div>
-        <div class="industry-pill">💧 Water & Utilities</div>
-        <div class="industry-pill">🛢️ Oil & Gas</div>
-        <div class="industry-pill">🚗 Automotive</div>
+      <div class="col">
+        <div class="panel">
+          <div class="ph"><div class="pt">Golden Batch Score — Active Batches</div><div class="pb pb-blue">AI SCORED</div></div>
+          <div class="pbd" id="goldenScores"></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Batch Deviation Prediction</div><div class="pb pb-amber">PREDICTIVE</div></div>
+          <div class="pbd" id="deviationPred"></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Recent Batch Records — Auto-Generated</div><div class="pb pb-blue">21 CFR READY</div></div>
+          <div style="overflow-x:auto"><table class="dtable" id="batchRecords"></table></div>
+        </div>
       </div>
-  
-<div class="stats-bar";>
-        <div class="stat-item">
-          <span class="stat-value" data-count="90">90</span>
-          <span class="stat-label"> Days to Live </span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" data-count="0">0 Rs</span>
-          <span class="stat-label"> Hardware Needed </span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" data-count="6">6 mo</span>
-          <span class="stat-label">Payback Period</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" data-count="30">30 days</span>
-          <span class="stat-label"> First Pilot</span>
-        </div>
-  <div class="stat-item"> 
-          <span class="stat-value">98.7%</span>
-          <span class="stat-label">Compliance Rate</span>
-        </div>
-    </section>
+    </div>
+  </div>
+</div>
 
-
-    <!-- ── CTA ── -->
-    <section class="cta-section">
-      <div class="cta-glow"></div>
-      <div class="reveal">
-        <div class="section-label" style="justify-content: center">
-          Ready to start
-        </div>
-        <h2 class="cta-title">
-          YOUR PLANT.<br /><span>OUR AI.</span><br />YOUR ROI.
-        </h2>
-        <p class="cta-desc">
-          We prove ROI before you sign a long-term contract.<br /> Start with a 30-day
-          pilot on one production line. <br />Measure results. Then decide.
-        </p>
-        <div
-          style="
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-          "
-        >
-          <a
-            href="https://ariprus.com/contact-us/" target="_blank"
-            class="btn-primary"
-            style="font-size: 16px; padding: 16px 40px"
-            >Book a Demo →</a
-          >
-          
-        </div>
-        <p style="margin-top: 32px; font-size: 13px; color: var(--silver)">
-          No commitment · 30-day pilot · ROI measured before expansion
-        </p>
+<!-- ═══ QUALITY & DEVIATIONS ══════════════════════════════════ -->
+<div class="view" id="view-quality">
+  <div class="vw">
+    <div class="krow k4 mb5" id="qualKPIs"></div>
+    <div class="g2 mb4">
+      <div class="panel">
+        <div class="ph"><div class="pt">OOS / OOT Trend — Last 90 Days</div><div class="pb pb-vio">TRENDING</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="oosChart" height="220"></canvas></div>
       </div>
-    </section>
-
-    <!-- ── FOOTER ── -->
-    <footer>
-      <div class="footer-brand">Ari<span>Linc</span> · by AriPrus</div>
-      <div class="footer-links">
-        <a href="https://arilinc.ariprus.com" target="_blank">Platform</a>
-        <a href="https://steel.ariprus.com" target="_blank">Steel</a>
-        <a href="https://cip.ariprus.com" target="_blank">Dairy CIP</a>
-        <a href="https://pharma.ariprus.com" target="_blank">Pharma</a>
-        <a href="https://battery.ariprus.com" target="_blank">Battery</a>
-        <a href="https://tiles.ariprus.com" target="_blank">Tiles</a>
-        <a href="https://grain.ariprus.com" target="_blank">Grain</a>
-        <a href="https://ariprus.com/contact-us/" target="_blank">Contact</a>         
+      <div class="panel">
+        <div class="ph"><div class="pt">CAPA Status Dashboard</div><div class="pb pb-blue">LIVE</div></div>
+        <div class="pbd" id="capaPanel"></div>
       </div>
-      <p class="footer-copy">
-        © 2026 AriPrus · All rights reserved · info@ariprus.com
-      </p>
-    </footer>
+    </div>
+    <div class="g12">
+      <div class="panel">
+        <div class="ph"><div class="pt">Open Deviations by Category</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="devCatChart" height="200"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Deviation Log — AI Root Cause Tagged</div><div class="pb pb-vio">AI TAGGED</div></div>
+        <div style="overflow-x:auto"><table class="dtable" id="devTable"></table></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <script>
-      // Scroll reveal
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => entry.target.classList.add("visible"), i * 80);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
-      );
+<!-- ═══ CIP / SIP ════════════════════════════════════════════ -->
+<div class="view" id="view-cip">
+  <div class="vw">
+    <div class="krow k4 mb5" id="cipKPIs"></div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3);margin-bottom:10px">Active CIP / SIP Circuits — Manufacturing Block A</div>
+    <div class="cip-grid mb4" id="cipCircuits"></div>
+    <div class="g21">
+      <div class="col">
+        <div class="panel">
+          <div class="ph"><div class="pt">Conductivity Profile — Vessel V-201</div><div class="pb pb-live">LIVE</div></div>
+          <div class="pbd" style="padding-top:8px"><canvas id="cipCondChart" height="190"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Chemical Saving vs Manual CIP</div><div class="pb pb-teal">AI CONTROLLED</div></div>
+          <div class="pbd" style="padding-top:8px"><canvas id="cipSavingChart" height="140"></canvas></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel">
+          <div class="ph"><div class="pt">CIP Validation Records — Cleaning Efficacy</div><div class="pb pb-blue">21 CFR §211.67</div></div>
+          <div style="overflow-x:auto"><table class="dtable" id="cipValidTable"></table></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">SIP Steam Profile — Autoclave A-3</div><div class="pb pb-vio">IN-PROCESS</div></div>
+          <div class="pbd" style="padding-top:8px"><canvas id="sipChart" height="160"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      document
-        .querySelectorAll(".reveal")
-        .forEach((el) => observer.observe(el));
+<!-- ═══ OEE & MAINTENANCE ═════════════════════════════════════ -->
+<div class="view" id="view-oee">
+  <div class="vw">
+    <div class="krow k4 mb5" id="oeeKPIs"></div>
+    <div class="g2 mb4">
+      <div class="panel">
+        <div class="ph"><div class="pt">OEE — Critical Equipment (Last 30 Days)</div><div class="pb pb-teal">MEASURED</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="oeeChart" height="220"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Predictive Maintenance — Fault Probability</div><div class="pb pb-vio">AI FORECAST</div></div>
+        <div class="pbd" id="maintPanel"></div>
+      </div>
+    </div>
+    <div class="g12">
+      <div class="panel">
+        <div class="ph"><div class="pt">Downtime Analysis by Loss Category</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="downtimeChart" height="200"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Maintenance Work Orders — AI Prioritised</div><div class="pb pb-amber">SCHEDULED</div></div>
+        <div style="overflow-x:auto"><table class="dtable" id="woTable"></table></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      // Stagger vertical cards
-      document.querySelectorAll(".vertical-card").forEach((card, i) => {
-        card.style.transitionDelay = `${i * 60}ms`;
-      });
+<!-- ═══ 21 CFR COMPLIANCE ════════════════════════════════════ -->
+<div class="view" id="view-compliance">
+  <div class="vw">
+    <div class="comp-grid mb4" id="compCards"></div>
+    <div class="g2 mb4">
+      <div class="panel">
+        <div class="ph"><div class="pt">Electronic Batch Records — Part 11 Audit Trail</div><div class="pb pb-blue">21 CFR PART 11</div></div>
+        <div style="overflow-x:auto"><table class="dtable" id="ebrTable"></table></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Audit Trail — System Access &amp; Changes</div><div class="pb pb-blue">PART 11 §11.10(e)</div></div>
+        <div style="overflow-x:auto"><table class="dtable" id="auditTable"></table></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="panel">
+        <div class="ph"><div class="pt">Compliance Score Trend</div><div class="pb pb-teal">IMPROVING</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="compTrendChart" height="200"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Regulatory Readiness Checklist</div></div>
+        <div class="pbd" id="regPanel"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      // Nav scroll effect
-      window.addEventListener("scroll", () => {
-        const nav = document.querySelector("nav");
-        if (window.scrollY > 40) {
-          nav.style.background = "rgba(8,12,18,0.96)";
-          nav.style.boxShadow = "0 4px 32px rgba(0,0,0,0.4)";
-        } else {
-          nav.style.background = "rgba(8,12,18,0.85)";
-          nav.style.boxShadow = "none";
-        }
-      });
+<!-- ═══ BUSINESS VALUE ════════════════════════════════════════ -->
+<div class="view" id="view-value">
+  <div class="vw">
+    <div style="background:linear-gradient(135deg,#0A1628 0%,#1E4D9B 100%);border-radius:14px;padding:28px 36px;margin-bottom:18px;text-align:center">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.55);margin-bottom:8px">Business Value · ROI Analysis</div>
+      <div style="font-family:'Unbounded',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:700;color:#fff;margin-bottom:8px">Six use cases. One platform.<br/>Measurable from Day 30.</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.6);max-width:500px;margin:0 auto;font-weight:300;line-height:1.65">Indicative for a mid-size pharma plant · 5–8 API product campaigns/year · Full-scale numbers proportionally higher</div>
+    </div>
+    <div class="bv-ucgrid mb4" id="bvUCs"></div>
+    <div style="overflow-x:auto;border:1px solid var(--border);border-radius:12px;margin-bottom:16px">
+      <table class="dtable" id="bvTable"></table>
+    </div>
+    <div class="g2 mb4">
+      <div class="panel">
+        <div class="ph"><div class="pt">Monthly Value Ramp — Year 1 (Rs Lakhs)</div><div class="pb pb-blue">PROJECTED</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="bvRampChart" height="210"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">5-Year TCO — Status Quo vs AriLinc</div></div>
+        <div class="pbd" style="padding-top:8px"><canvas id="tcoChart" height="210"></canvas></div>
+      </div>
+    </div>
+    <div class="pilot-card">
+      <div>
+        <div class="pc-title">Proposed 60-Day Pilot — 1 Manufacturing Plant</div>
+        <div class="pc-sub">Read-only connection to existing DCS / SCADA historian and LIMS. No process changes. Day 30 report shows measured batch yield delta, deviation count delta, and OEE improvement vs baseline.</div>
+        <div class="pc-items">
+          <div class="pc-it"><strong>Scope:</strong> Batch Intelligence + Quality + OEE</div>
+          <div class="pc-it"><strong>Data:</strong> Read-only historian + LIMS</div>
+          <div class="pc-it"><strong>Report:</strong> Day 30 ROI vs baseline</div>
+          <div class="pc-it"><strong>GxP:</strong> Validation plan included</div>
+        </div>
+      </div>
+      <div class="pc-rhs">
+        <div><div class="pc-cost-val">Rs 24L</div><div class="pc-cost-lbl">Total pilot investment</div></div>
+        <button class="btn-pil" onclick="toast('Pilot request submitted. Our team will contact you within 4 hours.')">Start Pilot →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-      // Animated counter on scroll
-      const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target;
-            const original = el.textContent;
-            // only animate pure numbers
-            if (/^\d+$/.test(original)) {
-              const target = parseInt(original);
-              let current = 0;
-              const step = Math.ceil(target / 30);
-              const timer = setInterval(() => {
-                current = Math.min(current + step, target);
-                el.textContent = current;
-                if (current >= target) clearInterval(timer);
-              }, 40);
-            }
-            counterObserver.unobserve(el);
-          }
-        });
-      });
+<div class="toast-el" id="toastEl"></div>
 
-      document
-        .querySelectorAll(".stat-value")
-        .forEach((el) => counterObserver.observe(el));
-    </script>
-  </body>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const rand = (a,b) => a + Math.random()*(b-a);
+const rnd = (v,d=1) => parseFloat(v.toFixed(d));
+let charts = {}, tick = 0;
+const MONTHS = ['Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+
+setInterval(()=>{
+  const d=new Date();
+  const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const mons=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  $('clk').textContent=`${days[d.getDay()]} ${d.getDate()} ${mons[d.getMonth()]} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+},1000);
+
+function sv(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('view-'+name).classList.add('active');
+  document.querySelectorAll('.nt').forEach(t=>t.classList.toggle('active',t.dataset.v===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='batch'     &&!charts.yield)    initBatchCharts();
+  if(name==='quality'   &&!charts.oos)      initQualityCharts();
+  if(name==='cip'       &&!charts.cipCond)  initCIPCharts();
+  if(name==='oee'       &&!charts.oee)      initOEECharts();
+  if(name==='compliance'&&!charts.compTrend)initCompCharts();
+  if(name==='value'     &&!charts.bvRamp)   initValueCharts();
+}
+
+function cBase(extra={}){
+  return{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#FFFFFF',borderColor:'rgba(30,77,155,.2)',borderWidth:1,titleColor:'#0A1628',bodyColor:'#445572',titleFont:{family:'IBM Plex Sans',size:12},bodyFont:{family:'IBM Plex Mono',size:11}},...(extra.plugins||{})},
+    scales:{x:{grid:{color:'rgba(30,77,155,.05)'},ticks:{color:'#8898AA',font:{family:'IBM Plex Mono',size:10}},...(extra.x||{})},
+      y:{grid:{color:'rgba(30,77,155,.05)'},ticks:{color:'#8898AA',font:{family:'IBM Plex Mono',size:10}},...(extra.y||{})}},...extra};
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  buildOverview(); buildBatch(); buildQuality(); buildCIP(); buildOEE(); buildCompliance(); buildValue();
+  initOverviewCharts(); startSim();
+});
+
+function buildOverview(){
+  $('ovKPIs').innerHTML=[
+    {n:'8',    l:'Active batch runs today',d:'Across 3 manufacturing blocks',c:'#1E4D9B',dt:'db'},
+    {n:'94.2%',l:'Avg batch yield (30D)',  d:'↑ +2.8% vs manual baseline',c:'#0C7A6E',dt:'dg'},
+    {n:'2',    l:'Open critical deviations',d:'1 OOS · 1 CCP excursion',c:'#92400E',dt:'da'},
+    {n:'87.4%',l:'Plant OEE — rolling 7D', d:'↑ +5.1% from AI scheduling',c:'#166534',dt:'dg'},
+  ].map(k=>`<div class="kcard"><div class="kacc" style="background:${k.c}"></div><div class="knum">${k.n}</div><div class="klbl">${k.l}</div><div class="kdelta ${k.dt}">${k.d}</div></div>`).join('');
+
+  $('ovBatches').innerHTML=[
+    {id:'BT-2026-0841',prod:'Metformin HCl API',col:'#1E4D9B',cls:'run',val:92,pct:68},
+    {id:'BT-2026-0842',prod:'Cefuroxime Axetil',col:'#0C7A6E',cls:'run',val:88,pct:44},
+    {id:'BT-2026-0843',prod:'Atorvastatin API',col:'#92400E',cls:'warn',val:81,pct:57},
+    {id:'BT-2026-0844',prod:'Pantoprazole Sod.',col:'#166534',cls:'done',val:96,pct:100},
+  ].map(b=>`<div class="bc ${b.cls}"><div class="bc-id">${b.id}</div><div class="bc-prod">${b.prod}</div><div class="bc-val" style="color:${b.col}">${b.val}<span style="font-size:11px;color:var(--t3)">%</span></div><div style="font-size:10px;color:var(--t3);margin-top:2px">Yield index</div><div class="bc-prog"><div class="bc-fill" style="width:${b.pct}%;background:${b.col}"></div></div></div>`).join('');
+
+  $('ovAlerts').innerHTML=`<div class="afd">${[
+    {cls:'af-a',t:'09:14',m:'BT-2026-0843 (Atorvastatin) — Reaction temperature 2.4°C above spec. CPP excursion logged. Corrective action initiated.'},
+    {cls:'af-w',t:'08:42',m:'Granulator G-02 OEE dropped to 74.2% — below 80% threshold. Maintenance notified.'},
+    {cls:'af-ok',t:'07:58',m:'BT-2026-0844 (Pantoprazole) batch CLOSED. Yield 96.2% — above Golden Batch benchmark.'},
+    {cls:'af-i',t:'07:30',m:'CIP Vessel V-201 cycle complete. Cleaning validation PASS. Auto-logged to batch record.'},
+    {cls:'af-ok',t:'06:15',m:'Daily GMP audit check complete. 12/12 critical controls in spec. No observations.'},
+  ].map(e=>`<div class="af ${e.cls}"><div class="aftime">${e.t}</div><div>${e.m}</div></div>`).join('')}</div>`;
+
+  $('ovModules').innerHTML=`<div style="display:flex;flex-direction:column;gap:7px">${[
+    ['Batch Intelligence','Yield prediction live · 8 active batches','#0C7A6E'],
+    ['Quality & Deviations','2 open deviations · CAPA on track','#92400E'],
+    ['CIP / SIP','6 circuits active · V-201 complete','#5B3FA0'],
+    ['OEE & Maintenance','87.4% fleet OEE · 3 WOs scheduled','#166534'],
+    ['21 CFR Compliance','98.4% score · Audit trail active','#1E4D9B'],
+  ].map(([n,s,c])=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:7px;background:var(--bg);border-left:3px solid ${c}"><div><div style="font-size:13px;font-weight:600;color:var(--t1)">${n}</div><div style="font-size:11px;color:var(--t3)">${s}</div></div><div style="width:8px;height:8px;border-radius:50%;background:${c};flex-shrink:0"></div></div>`).join('')}</div>`;
+}
+
+function initOverviewCharts(){
+  charts.ovEff=new Chart($('ovEffChart'),{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[
+    {label:'Batch Yield%',data:[91.2,92.4,90.8,93.1,92.8,93.6,94.2],borderColor:'#1E4D9B',backgroundColor:'rgba(30,77,155,.07)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#1E4D9B'},
+    {label:'OEE%',data:[84,86,83,88,87,87,87.4],borderColor:'#0C7A6E',borderDash:[4,3],fill:false,tension:.4,pointRadius:2},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+}
+
+// ── BATCH ─────────────────────────────────────────────────────
+function buildBatch(){
+  $('batchKPIs').innerHTML=[
+    {n:'94.2%',l:'Avg batch yield (rolling 30D)',d:'↑ +2.8% vs pre-AriLinc baseline',c:'#0C7A6E',dt:'dg'},
+    {n:'3.2%',l:'Yield uplift from AI optimisation',d:'Golden Batch model active',c:'#1E4D9B',dt:'db'},
+    {n:'35%',l:'Batch deviation reduction',d:'CPP excursions caught early',c:'#166534',dt:'dg'},
+    {n:'Rs 18–28Cr',l:'Annual yield value · 1 plant',c:'#0C7A6E',dt:'dg',d:'Conservatively estimated'},
+  ].map(k=>`<div class="kcard"><div class="kacc" style="background:${k.c}"></div><div class="knum">${k.n}</div><div class="klbl">${k.l}</div><div class="kdelta ${k.dt}">${k.d}</div></div>`).join('');
+
+  var cppData=[
+    {l:'Reaction Temp (°C)',v:84,col:'#1E4D9B',ok:true},
+    {l:'Agitator Speed (rpm)',v:91,col:'#0C7A6E',ok:true},
+    {l:'pH Control',v:76,col:'#92400E',ok:false},
+    {l:'Reaction Time adherence',v:96,col:'#166534',ok:true},
+    {l:'Solvent ratio accuracy',v:98,col:'#1E4D9B',ok:true},
+  ];
+  $('cppBars').innerHTML=cppData.map(function(b){
+    var c=b.ok?b.col:'#992400';
+    return '<div class="bar-row"><div class="bar-lbl">'+b.l+'</div><div class="bar-track"><div class="bar-fill" style="width:'+b.v+'%;background:'+c+'"></div></div><div class="bar-val" style="color:'+c+'">'+b.v+'%</div></div>';
+  }).join('');
+
+  var gsData=[
+    {id:'BT-2026-0841',prod:'Metformin HCl',score:96,col:'#0C7A6E'},
+    {id:'BT-2026-0842',prod:'Cefuroxime Axetil',score:88,col:'#1E4D9B'},
+    {id:'BT-2026-0843',prod:'Atorvastatin',score:74,col:'#92400E'},
+    {id:'BT-2026-0844',prod:'Pantoprazole',score:97,col:'#166534'},
+  ];
+  $('goldenScores').innerHTML='<div style="display:flex;flex-direction:column;gap:7px">'+gsData.map(function(g){
+    var circ=(2*Math.PI*20).toFixed(1);
+    var off=(2*Math.PI*20*(1-g.score/100)).toFixed(1);
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 10px;background:var(--bg);border-radius:8px">'
+      +'<svg width="44" height="44" viewBox="0 0 44 44">'
+      +'<circle cx="22" cy="22" r="20" fill="none" stroke="rgba(0,0,0,.07)" stroke-width="4"/>'
+      +'<circle cx="22" cy="22" r="20" fill="none" stroke="'+g.col+'" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+off+'" transform="rotate(-90 22 22)"/>'
+      +'</svg>'
+      +'<div style="flex:1"><div style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--t3)">'+g.id+'</div>'
+      +'<div style="font-size:13px;font-weight:600;color:var(--t1)">'+g.prod+'</div></div>'
+      +'<div style="font-family:Unbounded,sans-serif;font-size:18px;font-weight:700;color:'+g.col+'">'+g.score+'</div>'
+      +'</div>';
+  }).join('')+'</div>';
+
+  var devPredData=[
+    {id:'BT-2026-0843',prod:'Atorvastatin API',level:'HIGH',msg:'pH trending toward lower spec limit. Recommend buffer addition at T+45min.',col:'#992400'},
+    {id:'BT-2026-0841',prod:'Metformin HCl',level:'LOW',msg:'All CPPs nominal. No predicted deviation in next 4 hours.',col:'#166534'},
+    {id:'BT-2026-0842',prod:'Cefuroxime Axetil',level:'MED',msg:'Crystallisation temperature drift detected. Monitor closely.',col:'#92400E'},
+  ];
+  $('deviationPred').innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'+devPredData.map(function(d){
+    return '<div style="padding:10px 12px;border-radius:8px;border-left:3px solid '+d.col+';background:var(--bg)">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:3px">'
+      +'<span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--t3)">'+d.id+'</span>'
+      +'<span style="font-size:10px;font-weight:600;color:'+d.col+'">'+d.level+'</span></div>'
+      +'<div style="font-size:11px;color:var(--t1);font-weight:500;margin-bottom:2px">'+d.prod+'</div>'
+      +'<div style="font-size:11px;color:var(--t2)">'+d.msg+'</div></div>';
+  }).join('')+'</div>';
+
+  var batchRecs=[
+    ['BT-2026-0840','Amoxicillin Tri.','2026-04-15 06:00','8h 22m','95.8%','97','0','<span class="pill pl-pass">RELEASED</span>'],
+    ['BT-2026-0839','Metformin HCl','2026-04-14 22:00','7h 45m','93.2%','91','1','<span class="pill pl-warn">REVIEW</span>'],
+    ['BT-2026-0838','Atorvastatin','2026-04-14 14:00','9h 10m','91.4%','85','0','<span class="pill pl-pass">RELEASED</span>'],
+    ['BT-2026-0837','Cefuroxime','2026-04-14 06:00','8h 05m','88.6%','79','2','<span class="pill pl-warn">CAPA OPEN</span>'],
+    ['BT-2026-0836','Pantoprazole','2026-04-13 20:00','7h 30m','96.1%','98','0','<span class="pill pl-pass">RELEASED</span>'],
+  ];
+  $('batchRecords').innerHTML='<thead><tr><th>Batch No.</th><th>Product</th><th>Start</th><th>Duration</th><th>Yield%</th><th>GBS</th><th>Deviations</th><th>Status</th></tr></thead><tbody>'+
+    batchRecs.map(function(r){return '<tr>'+r.map(function(c,i){
+      var cls=i===4?'val-g mono':i===5?'val-b mono':'';
+      return '<td class="'+cls+'">'+c+'</td>';
+    }).join('')+'</tr>';}).join('')+'</tbody>';
+}
+
+function initBatchCharts(){
+  const hrs=Array.from({length:36},(_,i)=>i+'h');
+  const yieldD=hrs.map((_,i)=>rnd(rand(88,96)+(i<18?i*.1:-(i-18)*.05)));
+  const pred=hrs.map((_,i)=>rnd(rand(89,97)));
+  charts.yield=new Chart($('yieldChart'),{type:'line',data:{labels:hrs,datasets:[
+    {label:'Actual Yield%',data:yieldD,borderColor:'#1E4D9B',backgroundColor:'rgba(30,77,155,.07)',fill:true,tension:.4,borderWidth:2,pointRadius:0},
+    {label:'AI Prediction',data:pred,borderColor:'#0C7A6E',borderDash:[5,3],fill:false,tension:.4,borderWidth:1.5,pointRadius:0},
+    {label:'Spec Min (88%)',data:Array(36).fill(88),borderColor:'rgba(153,27,27,.4)',borderDash:[4,3],borderWidth:1.5,pointRadius:0},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+}
+
+// ── QUALITY ───────────────────────────────────────────────────
+function buildQuality(){
+  $('qualKPIs').innerHTML=[
+    {n:'2',l:'Open critical deviations',d:'1 OOS · 1 CCP excursion',c:'#991B1B',dt:'dr'},
+    {n:'45%',l:'Deviation rate reduction',d:'vs 12-month pre-AriLinc avg',c:'#166534',dt:'dg'},
+    {n:'98.2%',l:'First-pass batch release rate',d:'↑ +6.4% with AI quality sensors',c:'#0C7A6E',dt:'dg'},
+    {n:'3.8 days',l:'Avg deviation closure time',d:'↓ from 8.2 days manual process',c:'#1E4D9B',dt:'db'},
+  ].map(k=>`<div class="kcard"><div class="kacc" style="background:${k.c}"></div><div class="knum">${k.n}</div><div class="klbl">${k.l}</div><div class="kdelta ${k.dt}">${k.d}</div></div>`).join('');
+
+  $('capaPanel').innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">${[
+    ['CAPA-2026-041','OOS — Atorvastatin assay','Root cause: temperature excursion R-04','OPEN','#992400'],
+    ['CAPA-2026-040','CIP Failure — Vessel V-104','Cleaning agent below spec concentration','IN-PROG','#92400E'],
+    ['CAPA-2026-039','Yield deviation — Cefuroxime','Crystallisation rate variance identified','CLOSED','#166534'],
+    ['CAPA-2026-038','Equipment OOT — Granulator','Vibration sensor anomaly — scheduled PM','CLOSED','#166534'],
+  ].map(([id,title,rc,status,col])=>`<div style="padding:9px 12px;border-radius:8px;background:var(--bg);border-left:3px solid ${col};display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><div style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--t3)">${id}</div><div style="font-size:12px;font-weight:600;color:var(--t1);margin:2px 0">${title}</div><div style="font-size:11px;color:var(--t2)">${rc}</div></div><span class="pill ${status==='OPEN'?'pl-fail':status==='IN-PROG'?'pl-warn':'pl-pass'}">${status}</span></div>`).join('')}</div>`;
+
+  var devData=[
+    ['DEV-0641','BT-2026-0843','Temp (°C)','89.2','82–86°C','Cooling water flow rate drop — CW pump P-04','<span class="pill pl-fail">OPEN</span>'],
+    ['DEV-0640','BT-2026-0839','Assay (%)','97.8%','98.0–102.0%','Raw material potency variation — RM lot change','<span class="pill pl-warn">REVIEW</span>'],
+    ['DEV-0639','BT-2026-0837','pH','6.62','6.8–7.2','Buffer preparation error — operator deviation','<span class="pill pl-pass">CLOSED</span>'],
+  ];
+  $('devTable').innerHTML='<thead><tr><th>Dev No.</th><th>Batch</th><th>Parameter</th><th>Value</th><th>Spec</th><th>AI Root Cause</th><th>Status</th></tr></thead><tbody>'+
+    devData.map(function(r){return '<tr>'+r.map(function(c,i){
+      return '<td class="'+(i===3?'val-a mono':'')+'">'+c+'</td>';
+    }).join('')+'</tr>';}).join('')+'</tbody>';
+}
+
+function initQualityCharts(){
+  charts.oos=new Chart($('oosChart'),{type:'bar',data:{labels:MONTHS,datasets:[
+    {label:'OOS Events',data:[8,6,7,5,4,3,2],backgroundColor:'rgba(153,27,27,.55)',borderRadius:4,stack:'s'},
+    {label:'OOT Events',data:[12,10,9,8,7,5,4],backgroundColor:'rgba(146,64,14,.5)',borderRadius:4,stack:'s'},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+
+  charts.devCat=new Chart($('devCatChart'),{type:'doughnut',data:{labels:['Process/CPP','Equipment','Raw Material','Human Error','Environmental'],datasets:[{data:[38,24,18,14,6],backgroundColor:['#1E4D9B','#0C7A6E','#92400E','#5B3FA0','#991B1B'],borderWidth:2,borderColor:'#FFFFFF'}]},
+    options:{...cBase(),plugins:{legend:{display:true,position:'right',labels:{color:'#445572',font:{size:11},boxWidth:12}}}}});
+}
+
+// ── CIP / SIP ─────────────────────────────────────────────────
+function buildCIP(){
+  $('cipKPIs').innerHTML=[
+    {n:'6',l:'CIP circuits active now',d:'5 CIP · 1 SIP in progress',c:'#0C7A6E',dt:'db'},
+    {n:'−26%',l:'Cleaning agent saving (MTD)',d:'AI conductivity control vs timer',c:'#166534',dt:'dg'},
+    {n:'100%',l:'Cleaning validation pass rate',d:'§211.67 auto-logged records',c:'#1E4D9B',dt:'db'},
+    {n:'−28%',l:'WFI consumption reduction',d:'Cycle shortening when spec met early',c:'#166534',dt:'dg'},
+  ].map(k=>`<div class="kcard"><div class="kacc" style="background:${k.c}"></div><div class="knum">${k.n}</div><div class="klbl">${k.l}</div><div class="kdelta ${k.dt}">${k.d}</div></div>`).join('');
+
+  $('cipCircuits').innerHTML=[
+    {name:'Reactor R-04',phase:'NaOH Caustic Phase',cls:'run',col:'#0C7A6E',cond:'8.4 mS',pct:62},
+    {name:'Vessel V-201',phase:'WFI Final Rinse',cls:'done',col:'#166534',cond:'0.2 mS',pct:100},
+    {name:'Ferm Tank F-02',phase:'HNO₃ Acid Phase',cls:'run',col:'#0C7A6E',cond:'4.1 mS',pct:44},
+    {name:'Dryer D-01',phase:'Scheduled — 14:00',cls:'sip',col:'#8898AA',cond:'—',pct:0},
+    {name:'Granulator G-02',phase:'Pre-rinse',cls:'run',col:'#0C7A6E',cond:'1.8 mS',pct:22},
+    {name:'Autoclave A-3',phase:'SIP Steam 134°C',cls:'sip',col:'#5B3FA0',cond:'134°C',pct:58},
+    {name:'Coating Pan CP-1',phase:'NaOH Phase',cls:'run',col:'#0C7A6E',cond:'7.8 mS',pct:78},
+    {name:'IPC Lab Vessel',phase:'Complete ✓',cls:'done',col:'#166534',cond:'0.1 mS',pct:100},
+  ].map(c=>`<div class="cipc ${c.cls}"><div class="cipc-name">${c.name}</div><div class="cipc-phase">${c.phase}</div><div class="cipc-val" style="color:${c.col}">${c.cond}</div><div class="cipc-unit">Conductivity</div><div class="cipc-prog"><div style="height:100%;width:${c.pct}%;background:${c.col};border-radius:2px;transition:width .8s"></div></div></div>`).join('');
+
+  var cipValData=[
+    ['Reactor R-03','CIP-1','NaOH 2%','80°C','42 min','8.6 mS/cm','<10 ppm','<span class="pill pl-pass">PASS</span>'],
+    ['Vessel V-201','CIP-2','WFI rinse','Ambient','18 min','0.2 mS/cm','<0.1 ppm','<span class="pill pl-pass">PASS</span>'],
+    ['Ferm Tank F-01','CIP-3','HNO₃ 1.5%','65°C','28 min','4.3 mS/cm','<5 ppm','<span class="pill pl-pass">PASS</span>'],
+    ['Granulator G-01','CIP-1','NaOH 2%','78°C','38 min','7.2 mS/cm','<10 ppm','<span class="pill pl-warn">REVIEW</span>'],
+  ];
+  $('cipValidTable').innerHTML='<thead><tr><th>Equipment</th><th>Method</th><th>Agent</th><th>Temp</th><th>Duration</th><th>Final Cond.</th><th>Residue Limit</th><th>Result</th></tr></thead><tbody>'+
+    cipValData.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody>';
+}
+
+function initCIPCharts(){
+  const t=Array.from({length:48},(_,i)=>i+'m');
+  const cond=t.map((_,i)=>i<8?rnd(rand(.2,.4)):i<12?rnd(rand(6.5,8.8)):i<28?rnd(rand(7.8,8.6)):i<34?rnd(rand(4,6)):rnd(rand(.2,.4)));
+  charts.cipCond=new Chart($('cipCondChart'),{type:'line',data:{labels:t,datasets:[
+    {label:'Conductivity (mS/cm)',data:cond,borderColor:'#0C7A6E',backgroundColor:'rgba(12,122,110,.07)',fill:true,tension:.3,borderWidth:2,pointRadius:0},
+    {label:'Min Spec (7.5 mS)',data:Array(48).fill(7.5),borderColor:'rgba(146,64,14,.4)',borderDash:[4,3],borderWidth:1.5,pointRadius:0},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+
+  charts.cipSaving=new Chart($('cipSavingChart'),{type:'bar',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[
+    {label:'Manual (L)',data:[148,152,146,150,144,148,146],backgroundColor:'rgba(146,64,14,.4)',borderRadius:3},
+    {label:'AriLinc AI (L)',data:[112,108,109,106,110,105,108],backgroundColor:'rgba(12,122,110,.65)',borderRadius:3},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+
+  const s=Array.from({length:30},(_,i)=>rnd(rand(132,135.8)));
+  charts.sip=new Chart($('sipChart'),{type:'line',data:{labels:s.map((_,i)=>i*2+'m'),datasets:[
+    {label:'Steam Temp (°C)',data:s,borderColor:'#5B3FA0',backgroundColor:'rgba(91,63,160,.07)',fill:true,tension:.4,borderWidth:2,pointRadius:0},
+    {label:'Target 134°C',data:Array(30).fill(134),borderColor:'rgba(30,77,155,.4)',borderDash:[4,3],borderWidth:1.5,pointRadius:0},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+}
+
+// ── OEE ───────────────────────────────────────────────────────
+function buildOEE(){
+  $('oeeKPIs').innerHTML=[
+    {n:'87.4%',l:'Fleet OEE — rolling 7 days',d:'↑ +5.1% from AI scheduling',c:'#166534',dt:'dg'},
+    {n:'−18%',l:'Unplanned downtime reduction',d:'Predictive maintenance impact',c:'#166534',dt:'dg'},
+    {n:'3',l:'Maintenance work orders due today',d:'AI-prioritised by risk score',c:'#1E4D9B',dt:'db'},
+    {n:'Rs 3–5 Cr',l:'Annual OEE value · 1 plant',d:'Throughput gain + downtime avoided',c:'#0C7A6E',dt:'dg'},
+  ].map(k=>`<div class="kcard"><div class="kacc" style="background:${k.c}"></div><div class="knum">${k.n}</div><div class="klbl">${k.l}</div><div class="kdelta ${k.dt}">${k.d}</div></div>`).join('');
+
+  $('maintPanel').innerHTML=`<div style="display:flex;flex-direction:column;gap:9px">${[
+    ['Granulator G-02','Bearing vibration +22% above baseline','CRITICAL — 12–18 days to failure','#991B1B',88],
+    ['Reactor R-04','Impeller motor current trending up','HIGH — 25–35 days to failure','#92400E',64],
+    ['Dryer D-01','Inlet air filter pressure drop','MEDIUM — 45–60 days to failure','#92400E',42],
+    ['Tablet Press TP-3','Lower punch wear approaching limit','LOW — 75+ days to replacement','#1E4D9B',22],
+  ].map(([eq,sig,pred,col,pct])=>`<div style="padding:10px 12px;border-radius:8px;background:var(--bg)"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px;font-weight:600;color:var(--t1)">${eq}</span><span style="font-size:10px;color:${col};font-weight:600">${pred.split('—')[0].trim()}</span></div><div style="font-size:11px;color:var(--t2);margin-bottom:6px">${sig}</div><div style="height:5px;background:var(--bg2);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${col};border-radius:3px;transition:width 1.5s"></div></div></div>`).join('')}</div>`;
+
+  var woData=[
+    ['WO-4821','Granulator G-02','Bearing replacement','<span class="pill pl-fail">CRITICAL</span>','Today','<span class="pill pl-warn">SCHEDULED</span>'],
+    ['WO-4820','Reactor R-04','Motor current inspection','<span class="pill pl-warn">HIGH</span>','Tomorrow','<span class="pill pl-blue">PLANNED</span>'],
+    ['WO-4819','HVAC AHU-3','Filter replacement','<span class="pill pl-blue">MED</span>','Apr 20','<span class="pill pl-blue">PLANNED</span>'],
+    ['WO-4818','Autoclave A-3','Annual validation','<span class="pill pl-blue">LOW</span>','Apr 25','<span class="pill pl-pass">APPROVED</span>'],
+  ];
+  $('woTable').innerHTML='<thead><tr><th>WO#</th><th>Equipment</th><th>Type</th><th>Priority</th><th>Due</th><th>Status</th></tr></thead><tbody>'+
+    woData.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody>';
+}
+
+function initOEECharts(){
+  const equip=['Granulator G-02','Reactor R-04','Dryer D-01','Tablet Press TP-3','Coating Pan CP-1','Autoclave A-3'];
+  const a=[78,88,84,91,86,94],p=[82,90,88,94,89,97],q=[96,98,97,99,97,99];
+  const oee=a.map((_,i)=>Math.round(a[i]*p[i]*q[i]/10000));
+  charts.oee=new Chart($('oeeChart'),{type:'bar',data:{labels:equip,datasets:[
+    {label:'Availability',data:a,backgroundColor:'rgba(30,77,155,.55)',borderRadius:3,stack:'s'},
+    {label:'Performance',data:p.map((v,i)=>v-a[i]),backgroundColor:'rgba(12,122,110,.55)',borderRadius:3,stack:'s'},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+
+  charts.downtime=new Chart($('downtimeChart'),{type:'doughnut',data:{labels:['Planned Maintenance','Unplanned Failure','Changeover','Quality Hold','Other'],datasets:[{data:[35,22,28,10,5],backgroundColor:['#1E4D9B','#991B1B','#92400E','#5B3FA0','#8898AA'],borderWidth:2,borderColor:'#FFFFFF'}]},
+    options:{...cBase(),plugins:{legend:{display:true,position:'right',labels:{color:'#445572',font:{size:11},boxWidth:12}}}}});
+}
+
+// ── COMPLIANCE ────────────────────────────────────────────────
+function buildCompliance(){
+  $('compCards').innerHTML=[
+    {score:'98.4%',name:'21 CFR Part 11 Compliance',chip:'VALIDATED',cls:'g',note:'Electronic records, audit trails, e-signatures — fully active'},
+    {score:'96.8%',name:'GMP Batch Record Completeness',chip:'cGMP',cls:'g',note:'All critical data fields auto-populated. Manual exceptions: 2'},
+    {score:'94.2%',name:'EU Annex 11 Readiness',chip:'READY',cls:'g',note:'Computer system validation documentation current'},
+    {score:'100%',name:'Audit Trail Integrity',chip:'INTACT',cls:'g',note:'Zero gaps. All changes attributed. Tamper-evident log'},
+    {score:'91.4%',name:'CAPA Closure Rate (90D)',chip:'ON TRACK',cls:'a',note:'3 CAPAs open · avg closure time 3.8 days'},
+    {score:'88.6%',name:'Change Control Compliance',chip:'REVIEW',cls:'a',note:'4 changes pending QA approval'},
+  ].map(c=>{
+    const col=c.cls==='g'?'#166534':c.cls==='a'?'#92400E':'#991B1B';
+    const bg=c.cls==='g'?'var(--greenBg)':c.cls==='a'?'var(--amberBg)':'var(--redBg)';
+    return `<div class="compcard"><div class="comp-score" style="color:${col}">${c.score}</div><div class="comp-name">${c.name}</div><div class="comp-chip" style="background:${bg};color:${col}">${c.chip}</div><div class="comp-note">${c.note}</div></div>`;
+  }).join('');
+
+  var ebrData=[
+    ['BT-2026-0841','Metformin HCl API','Master Batch Record','2026-04-16 06:00','R.Sharma / QA','§211.188','<span class="pill pl-pass">APPROVED</span>'],
+    ['BT-2026-0840','Amoxicillin Tri.','Batch Production Record','2026-04-15 22:00','P.Kumar / QA','§211.188','<span class="pill pl-pass">RELEASED</span>'],
+    ['BT-2026-0843','Atorvastatin API','Deviation Record','2026-04-16 09:14','Auto-generated','§211.192','<span class="pill pl-fail">OPEN</span>'],
+    ['BT-2026-0839','Metformin HCl','CAPA Record','2026-04-14 18:30','A.Verma / QA','§211.198','<span class="pill pl-warn">IN REVIEW</span>'],
+  ];
+  $('ebrTable').innerHTML='<thead><tr><th>Batch No.</th><th>Product</th><th>Record Type</th><th>Created</th><th>E-Signature</th><th>CFR Reference</th><th>Status</th></tr></thead><tbody>'+
+    ebrData.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody>';
+
+  var auditData=[
+    ['09:14:22','system','AUTO-CREATE','DEV-0641','—','Temp CPP excursion detected'],
+    ['08:58:04','r.sharma@plant','E-SIGN','BT-2026-0841','Pending','Approved'],
+    ['08:42:18','p.kumar@qa','MODIFY','CAPA-2026-040','In Progress','Root Cause Identified'],
+    ['07:30:11','system','AUTO-LOG','CIP-V201-0416','—','CIP cycle complete · PASS'],
+  ];
+  $('auditTable').innerHTML='<thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Record</th><th>Before</th><th>After</th></tr></thead><tbody>'+
+    auditData.map(function(r){return '<tr>'+r.map(function(c,i){
+      var cls=(i===0||i===2)?'mono':'';
+      var sty=i===0?'style="color:var(--t3)"':i===2?'style="color:var(--blue)"':'';
+      return '<td class="'+cls+'" '+sty+'>'+c+'</td>';
+    }).join('')+'</tr>';}).join('')+'</tbody>';
+
+  var regData=[
+    ['21 CFR Part 11','Electronic records & e-signatures validated','100%','#1E4D9B'],
+    ['21 CFR §211 (cGMP)','Batch manufacturing records auto-generated','98.4%','#1E4D9B'],
+    ['EU Annex 11','Computer validation documentation current','94.2%','#0C7A6E'],
+    ['ICH Q10 (PQS)','Pharmaceutical quality system monitoring','96.8%','#0C7A6E'],
+    ['Schedule M (India GMP)','Local cGMP compliance auto-tracked','97.1%','#166534'],
+    ['Data Integrity (ALCOA+)','Attributable, legible, contemporaneous','100%','#166534'],
+  ];
+  $('regPanel').innerHTML='<div style="display:flex;flex-direction:column;gap:10px">'+regData.map(function(r){
+    return '<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">'
+      +'<div><span style="font-weight:600;color:var(--t1)">'+r[0]+'</span> <span style="color:var(--t3);font-size:11px">— '+r[1]+'</span></div>'
+      +'<span style="font-family:IBM Plex Mono,monospace;color:'+r[3]+';font-weight:600">'+r[2]+'</span></div>'
+      +'<div style="height:6px;background:var(--bg2);border-radius:3px;overflow:hidden">'
+      +'<div style="height:100%;width:'+r[2]+';background:'+r[3]+';border-radius:3px;transition:width 1.5s"></div></div></div>';
+  }).join('')+'</div>';
+}
+
+function initCompCharts(){
+  charts.compTrend=new Chart($('compTrendChart'),{type:'line',data:{labels:MONTHS,datasets:[
+    {label:'21 CFR Part 11 Score',data:[84,86,88,90,92,95,98.4],borderColor:'#1E4D9B',backgroundColor:'rgba(30,77,155,.07)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#1E4D9B'},
+    {label:'Industry Benchmark',data:[78,79,79,80,80,81,82],borderColor:'rgba(146,64,14,.5)',borderDash:[4,3],borderWidth:1.5,pointRadius:0},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+}
+
+// ── VALUE ─────────────────────────────────────────────────────
+function buildValue(){
+  const ucs=[
+    {ico:'⚗',num:'01',name:'Batch Intelligence',val:'Rs 18–28 Cr',per:'Per plant / year',col:'#1E4D9B',items:['3–5% API yield uplift','35% deviation reduction','Golden Batch consistency','Predictive CPP correction']},
+    {ico:'🔬',num:'02',name:'Quality & Deviations',val:'Rs 8–14 Cr',per:'Per plant / year',col:'#5B3FA0',items:['45% fewer OOS events','CAPA cycle time −53%','First-pass release +6.4%','Real-time QC soft sensors']},
+    {ico:'🧪',num:'03',name:'CIP / SIP Optimisation',val:'Rs 4–7 Cr',per:'Per plant / year',col:'#0C7A6E',items:['−26% cleaning agent','−28% WFI consumption','100% cleaning validation','Auto-logged §211.67 records']},
+    {ico:'⚙',num:'04',name:'OEE & Maintenance',val:'Rs 3–5 Cr',per:'Per plant / year',col:'#166534',items:['OEE +5.1% improvement','−18% unplanned downtime','Predictive fault detection','48–72h lead time on failures']},
+    {ico:'📋',num:'05',name:'21 CFR Compliance',val:'Rs 2–4 Cr',per:'Per plant / year',col:'#991B1B',items:['100% audit trail integrity','Zero manual record gaps','Inspection-ready in minutes','Electronic batch records']},
+    {ico:'♾',num:'06',name:'Digital MES Integration',val:'Rs 3–5 Cr',per:'Per plant / year',col:'#92400E',items:['DCS / SCADA integration','SAP PM / PP write-back','LIMS auto-population','Zero-paper shop floor']},
+  ];
+  $('bvUCs').innerHTML=ucs.map(function(u){
+    return '<div class="bvuc"><div class="bvuc-ico">'+u.ico+'</div><div class="bvuc-num">'+u.num+'</div>'
+      +'<div class="bvuc-name">'+u.name+'</div>'
+      +'<div class="bvuc-val" style="color:'+u.col+'">'+u.val+'</div>'
+      +'<div class="bvuc-per">'+u.per+'</div>'
+      +u.items.map(function(i){return '<div class="bvuc-item">'+i+'</div>';}).join('')
+      +'</div>';
+  }).join('');
+
+  var bvRows=[
+    ['API Yield Uplift (3–5%)','Batch Intelligence','Rs 1.5–2.3 Cr','Rs 18–28 Cr','High'],
+    ['OOS/Deviation Reduction','Quality','Rs 0.65–1.2 Cr','Rs 8–14 Cr','High'],
+    ['CIP Chemical + WFI Saving','CIP / SIP','Rs 0.35–0.6 Cr','Rs 4–7 Cr','High'],
+    ['OEE & Downtime Prevention','OEE & Maintenance','Rs 0.25–0.4 Cr','Rs 3–5 Cr','Med-High'],
+    ['Compliance Audit Labour','21 CFR','Rs 0.17–0.33 Cr','Rs 2–4 Cr','High'],
+    ['Digital MES Efficiency','Integration','Rs 0.25–0.4 Cr','Rs 3–5 Cr','Medium'],
+    ['Total — 1 Plant','All 6 Use Cases','—','Rs 38–63 Cr','High'],
+  ];
+  $('bvTable').innerHTML='<thead><tr><th>Value Driver</th><th>Use Case</th><th>Per Month</th><th>Per Year</th><th>Confidence</th></tr></thead><tbody>'+
+    bvRows.map(function(r,i){
+      var sty=i===6?'style="font-weight:600;background:rgba(30,77,155,.04)"':'';
+      return '<tr '+sty+'><td>'+r[0]+'</td><td style="color:var(--t3);font-size:11px">'+r[1]+'</td>'
+        +'<td class="mono" style="color:var(--teal)">'+r[2]+'</td>'
+        +'<td class="mono val-b" style="font-size:13px">'+r[3]+'</td>'
+        +'<td style="color:var(--t3);font-size:12px">'+r[4]+'</td></tr>';
+    }).join('')+'</tbody>';
+}
+
+function initValueCharts(){
+  const mo=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'];
+  charts.bvRamp=new Chart($('bvRampChart'),{type:'bar',data:{labels:mo,datasets:[
+    {label:'Batch Yield',data:[24,32,38,44,50,56,60,62,64,64,64,64],backgroundColor:'rgba(30,77,155,.65)',borderRadius:3,stack:'s'},
+    {label:'Quality + CIP',data:[0,0,16,22,28,32,36,38,40,40,40,40],backgroundColor:'rgba(12,122,110,.6)',borderRadius:3,stack:'s'},
+    {label:'OEE + Compliance',data:[0,0,0,14,18,22,26,28,30,32,34,36],backgroundColor:'rgba(91,63,160,.55)',borderRadius:3,stack:'s'},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}}}})});
+
+  charts.tco=new Chart($('tcoChart'),{type:'bar',data:{labels:['Y1','Y2','Y3','Y4','Y5'],datasets:[
+    {label:'Status quo (manual + legacy tools)',data:[18,18,18,18,18],backgroundColor:'rgba(146,64,14,.5)',borderRadius:3},
+    {label:'AriLinc platform cost',data:[24+2,2,2,2,2],backgroundColor:'rgba(30,77,155,.6)',borderRadius:3},
+  ]},options:cBase({plugins:{legend:{display:true,labels:{color:'#445572',font:{size:10},boxWidth:10}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: Rs ${ctx.parsed.y}L`}}}})});
+}
+
+// ── SIM ───────────────────────────────────────────────────────
+function startSim(){
+  setInterval(()=>{
+    tick++;
+    if(tick%8===0 && charts.yield){
+      const d=charts.yield.data.datasets[0].data;
+      d.push(rnd(rand(88,96)));d.shift();
+      charts.yield.update('none');
+    }
+  },2000);
+}
+
+let tt;
+function toast(m){const t=$('toastEl');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),4200);}
+</script>
+</body>
 </html>
